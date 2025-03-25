@@ -6,6 +6,6 @@
     <div class="content">
       
       <Quiz />
-      <a href="/" class="btn">Início</a>
+      
     </div>
   </main>
