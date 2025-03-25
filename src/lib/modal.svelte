@@ -7,13 +7,13 @@
 
 <div class="modal-bg" transition:fade>
   <div class="modal" transition:fly={{ y: -100 }}>
-    <button
+    <!-- <button
       on:click={() => {
         dispatch('close')
       }}
     >
       Fechar
-    </button>
+    </button> -->
     <slot />
   </div>
 </div>
