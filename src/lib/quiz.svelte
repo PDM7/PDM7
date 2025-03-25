@@ -61,6 +61,7 @@
       }
     ]
   },
+  
   {
     type: "multiple",
     difficulty: "hard",
@@ -224,7 +225,10 @@
       <h1 class="quiz-title">Pergunta <span class="question-number">#{questionNumber}</span></h1>
       <div class="quiz-controls">
         <button class="reset-btn" on:click={resetQuiz}>
-          <!-- ícone -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+            <path d="M3 3v5h5"></path>
+          </svg>
           Reiniciar
         </button>
         <div class="score-badge">Pontuação: <span>{$score}</span></div>
@@ -243,13 +247,32 @@
   </main>
 
   <footer class="quiz-footer">
-    <a href="/" class="home-link" on:click={resetQuiz}>
-      <!-- ícone -->
-      Voltar ao Início
-    </a>
-    <div class="progress">Pergunta {questionNumber} de {questions.length}</div>
+    <!-- Barra de progresso -->
+    <div class="progress-container">
+      <div class="progress-bar" style="width: {(activeQuestion / questions.length) * 100}%"></div>
+      <div class="progress-steps">
+        {#each Array(questions.length) as _, i}
+          <div 
+            class="progress-step {i === activeQuestion ? 'active' : ''} {i < activeQuestion ? 'completed' : ''}"
+            on:click={() => activeQuestion = i}
+          ></div>
+        {/each}
+      </div>
+    </div>
+    
+    <div class="footer-actions">
+      <a href="/" class="home-link" on:click={resetQuiz}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        Voltar ao Início
+      </a>
+      <div class="progress-text">Pergunta {questionNumber} de {questions.length}</div>
+    </div>
   </footer>
 </div>
+
 {/if}
 
 
@@ -262,7 +285,71 @@
     color: #333;
     min-height: 100vh;
   }
+  .progress-container {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
 
+  .progress-bar {
+    height: 6px;
+    background-color: #3E7BFF;
+    border-radius: 3px;
+    transition: width 0.3s ease;
+  }
+
+  .progress-steps {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: -6px;
+    width: 100%;
+  }
+
+  .progress-step {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+  }
+
+  .progress-step.completed {
+    background-color: #3E7BFF;
+  }
+
+  .progress-step.active {
+    background-color: white;
+    border: 3px solid #3E7BFF;
+    transform: scale(1.2);
+  }
+
+  .footer-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .progress-text {
+    color: #777;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  @media (max-width: 768px) {
+    .progress-step {
+      width: 14px;
+      height: 14px;
+    }
+    
+    .progress-bar {
+      height: 4px;
+    }
+  }
   .quiz-container {
     width: 100%;
     min-height: 100vh;
@@ -386,11 +473,6 @@
   .home-link:hover {
     color: #3E7BFF;
     background: #f5f5f5;
-  }
-
-  .progress {
-    color: #777;
-    font-size: 0.9rem;
   }
 
   /* Estilo para telas grandes */
