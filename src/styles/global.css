@@ -1,0 +1,16 @@
+/* Css global */
+
+*{
+    font-family: 'Poppins', sans-serif;
+    
+  }
+
+.title{
+  font-size: 6em;
+  font-weight: 900;
+  background: linear-gradient(90deg, #3E7BFF 0%, #5A8EFF 100%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0px;
+}  
+
