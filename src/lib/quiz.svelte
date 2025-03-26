@@ -252,11 +252,15 @@
       <div class="progress-bar" style="width: {(activeQuestion / questions.length) * 100}%"></div>
       <div class="progress-steps">
         {#each Array(questions.length) as _, i}
-          <div 
-            class="progress-step {i === activeQuestion ? 'active' : ''} {i < activeQuestion ? 'completed' : ''}"
-            on:click={() => activeQuestion = i}
-          ></div>
-        {/each}
+        <button 
+          class="progress-step {i === activeQuestion ? 'active' : ''} {i < activeQuestion ? 'completed' : ''}"
+          on:click={() => activeQuestion = i}
+          on:keydown={(e) => e.key === 'Enter' || e.key === ' ' ? activeQuestion = i : null}
+          role="tab"
+          aria-label={`Ir para pergunta ${i + 1}`}
+          tabindex="0"
+        ></button>
+      {/each}
       </div>
     </div>
     
