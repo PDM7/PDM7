@@ -315,7 +315,10 @@
     height: 18px;
     border-radius: 50%;
     background-color: #e0e0e0;
-    cursor: pointer;
+    border: none; 
+  background: none; 
+  padding: 0; 
+  cursor: pointer; 
     transition: all 0.3s ease;
     position: relative;
     z-index: 2;
