@@ -34,18 +34,19 @@
       return;
     }
 
-    try {
-      const response = await fetch(imageUrl, { method: 'HEAD' });
-      if (!response.ok) throw new Error('Image not found');
+    //Vamos simplificar. (ricardodarocha)
+    // try {
+    //   const response = await fetch(imageUrl, { method: 'HEAD' });
+    //   if (!response.ok) throw new Error('Image not found');
       
-      // Verifica se o conteúdo é realmente uma imagem
-      const contentType = response.headers.get('Content-Type');
-      if (!contentType || !contentType.startsWith('image/')) {
-        throw new Error('Not an image');
-      }
-    } catch (error) {
-      applyDefaultStyle(index, element);
-    }
+    //   // Verifica se o conteúdo é realmente uma imagem
+    //   const contentType = response.headers.get('Content-Type');
+    //   if (!contentType || !contentType.startsWith('image/')) {
+    //     throw new Error('Not an image');
+    //   }
+    // } catch (error) {
+    //   applyDefaultStyle(index, element);
+    // }
   }
 
   function applyDefaultStyle(index, element) {
@@ -91,12 +92,11 @@
       <button
         disabled={isAnswered}
         on:click={() => checkQuestion(answer)}
-        class:correct-answer={isAnswered && answer.correct}
-        class:wrong-answer={isAnswered && !answer.correct && selectedAnswer === answer}
+        class:correct-answer={isAnswered && selectedAnswer === answer}
       >
         <div class="icon-container">
           <img 
-            src={answer.image} 
+            src={"https://i.pinimg.com/originals/1f/c9/59/1fc959945e3daa2ad87a41c1f520a7fa.jpg"}
             alt={answer.text} 
             class="answer-image" 
             on:error={(e) => applyDefaultStyle(index, e.target.closest('.answer-card'))}

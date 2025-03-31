@@ -11,7 +11,7 @@
 
 <main class:loaded>
   <div class="content" in:fly={{ y: 100, duration: 800 }}>
-    <h1 class="title" in:fade={{ delay: 200 }}>Svelte Quiz</h1>
+    <h1 class="title" in:fade={{ delay: 200 }}>Anamnese da ansiedade</h1>
     <p in:fade={{ delay: 400 }}>
       is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a?
     </p>

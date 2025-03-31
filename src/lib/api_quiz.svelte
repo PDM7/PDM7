@@ -50,7 +50,7 @@
   
   <div>
     <button on:click={resetQuiz}>Reiniciar quiz</button>
-    <h3>Pontuação: {$score}</h3>
+    <h3>Respostas: {$score}</h3>
     <h4>Pergunta #{questionNumber} de {questions.length}</h4>
   
     {#if isLoading}
