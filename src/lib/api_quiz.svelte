@@ -2,7 +2,7 @@
     import Modal from '$lib/modal.svelte'
     import Question from '$lib/question.svelte'
     import { fade, fly } from 'svelte/transition'
-    import { score } from './store.js'
+    import { store } from './store.js'
   
     let questions = []
     let activeQuestion = 0
@@ -36,12 +36,12 @@
   
     function resetQuiz() {
       isModalOpen = false
-      score.set(0)
+      store.reset()
       getQuiz()
       activeQuestion = 0
     }
 
-    $: if ($score > 4) {
+    $: if ($store.score > 4) {
       isModalOpen = true
     }
   
@@ -50,7 +50,7 @@
   
   <div>
     <button on:click={resetQuiz}>Reiniciar quiz</button>
-    <h3>Respostas: {$score}</h3>
+    <h3>Respostas: {$store.score}</h3>
     <h4>Pergunta #{questionNumber} de {questions.length}</h4>
   
     {#if isLoading}

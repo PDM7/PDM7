@@ -2,10 +2,37 @@
   import Modal from '$lib/modal.svelte'
   import Question from '$lib/question.svelte'
   import { fade, fly } from 'svelte/transition'
-  import { score } from './store.js'
+  import { store } from './store.js'
 
  const questions = [
   {
+    type: "multiple",
+    difficulty: "easy",
+    category: "Health: Mental Health",
+    question: "Com que frequência você se sente nervoso(a) ou ansioso(a) antes de provas ou apresentações?",
+    answers: [
+      {
+        text: "Não me sinto ansioso",
+        correct: true,
+        image: ""
+      },
+      {
+        text: "Pouco ansioso",
+        correct: true,
+        image: ""
+      },
+      {
+        text: "Muito ansioso",
+        correct: true,
+        image: ""
+      },
+      {
+        text: "Ansiedade enorme",
+        correct: true,
+        image: ""
+      }
+    ]
+  },{
     type: "multiple",
     difficulty: "easy",
     category: "Health: Mental Health",
@@ -42,6 +69,7 @@
   function nextQuestion() {
     if (activeQuestion < questions.length - 1) {
       activeQuestion = activeQuestion + 1
+      store.next()
     } else {
       isModalOpen = true
     }
@@ -49,7 +77,7 @@
 
   function resetQuiz() {
     isModalOpen = false
-    score.set(0)
+    store.reset()
     activeQuestion = 0
   }
 
@@ -115,7 +143,7 @@
           </svg>
           Reiniciar
         </button>
-        <div class="score-badge">Respostas: <span>{$score}</span></div>
+        <div class="score-badge">Respostas: <span>{$store.score}</span></div>
       </div>
     </div>
   </header>
@@ -471,36 +499,6 @@
     font-size: 1.8rem;
     color: #2c3e50;
     margin-bottom: 1rem;
-  }
-
-  .score-result {
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
-    color: #555;
-  }
-
-  .highlight {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #3E7BFF;
-  }
-
-  .perfect-score {
-    color: #FFD700;
-    font-weight: 600;
-    margin-bottom: 2rem;
-  }
-
-  .good-score {
-    color: #3E7BFF;
-    font-weight: 600;
-    margin-bottom: 2rem;
-  }
-
-  .improve-score {
-    color: #FF9800;
-    font-weight: 600;
-    margin-bottom: 2rem;
   }
 
   .modal-actions {

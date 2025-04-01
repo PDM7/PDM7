@@ -1,5 +1,5 @@
 <script>
-  import { score } from './store.js'
+  import { store } from './store.js'
   import { onMount } from 'svelte'
 
   export let question
@@ -23,7 +23,7 @@
     isAnswered = true
     selectedAnswer = answer
     if (answer.correct) {
-      score.update(currentValue => currentValue + 1)
+      store.save("A", 1, 0, 0, 1, 1, 1, 1)
     }
   }
 
@@ -78,11 +78,7 @@
 
 {#if isAnswered}
   <h4 class:correct={selectedAnswer.correct} class:incorrect={!selectedAnswer.correct}>
-    {#if selectedAnswer.correct}
-      Boa, vamos pra próxima 🎉
-    {:else}
-      Xiii, deu ruim 😬
-    {/if}
+      Vamos pra próxima 🎉
   </h4>
 {/if}
 
@@ -200,10 +196,6 @@
 
   .correct-answer {
     outline: 3px solid #2e7d32;
-  }
-
-  .wrong-answer {
-    outline: 3px solid #c62828;
   }
 
   .next-button {
