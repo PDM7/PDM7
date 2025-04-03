@@ -2,6 +2,6 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "deploy": "PDM7 -d build -t"
+    "deploy": "gh-pages -d build -t"
   }
 }
