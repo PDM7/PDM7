@@ -1,4 +1,5 @@
 <script>
+  import { base } from "$app/paths";
   import { fade, fly } from 'svelte/transition';
   import { onMount } from 'svelte';
   
@@ -15,7 +16,7 @@
     <p in:fade={{ delay: 400 }}>
       is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a?
     </p>
-    <a href="/quiz" class="btn" in:fade={{ delay: 600 }}>INICIAR</a>
+    <a href="{base}/quiz" class="btn" in:fade={{ delay: 600 }}>INICIAR</a>
   </div>
   
   <div class="floating-shapes">

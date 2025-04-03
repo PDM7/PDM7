@@ -5,8 +5,15 @@ const config = {
   kit: {
     adapter: adapter(),
     paths: {
-      base: process.env.NODE_ENV === "production" ? "/pdm7" : "",
+      base: process.env.NODE_ENV === "production" ? "/PDM7" : "",
     },
+    prerender: {
+      entries: ['*'] // Garante que todas as páginas possíveis sejam renderizadas
+    },
+    alias: {
+      $lib: 'src/lib',
+      $components: 'src/lib/components'
+    }
   },
   strict: true,
 };
