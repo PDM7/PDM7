@@ -1,155 +1,68 @@
 <script>
+   import { base } from "$app/paths";
   import Modal from '$lib/modal.svelte'
   import Question from '$lib/question.svelte'
   import { fade, fly } from 'svelte/transition'
-  import { score } from './store.js'
+  import { store } from './store.js'
 
  const questions = [
   {
     type: "multiple",
     difficulty: "easy",
     category: "Health: Mental Health",
-    question: "O que é a ansiedade?",
+    question: "Com que frequência você se sente nervoso(a) ou ansioso(a) antes de provas ou apresentações?",
     answers: [
       {
-        text: "Uma resposta natural do corpo ao estresse.",
+        text: "Não me sinto ansioso",
         correct: true,
-        image: "https://images.unsplash.com/photo-1591382386627-349b692688ff?w=500"
+        image: ""
       },
       {
-        text: "Uma doença mental incurável",
-        correct: false,
-        image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=500"
+        text: "Pouco ansioso",
+        correct: true,
+        image: ""
       },
       {
-        text: "Uma reação apenas física",
-        correct: false,
-        image: "https://images.unsplash.com/photo-1530026186672-2cd00ffc50fe?w=500"
+        text: "Muito ansioso",
+        correct: true,
+        image: ""
       },
       {
-        text: "Uma sensação de prazer constante",
-        correct: false,
-        image: "https://images.unsplash.com/photo-1518457900604-d0c5a27ee3a2?w=500"
+        text: "Ansiedade enorme",
+        correct: true,
+        image: ""
       }
     ]
-  },
-  {
-    type: "multiple",
-    difficulty: "medium",
-    category: "Health: Mental Health",
-    question: "Qual é um dos sintomas comuns da ansiedade?",
-    answers: [
-      {
-        text: "Preocupação excessiva",
-        correct: true,
-        image: "https://images.unsplash.com/photo-1573496558710-9453b0ca8d1b?w=500"
-      },
-      {
-        text: "Felicidade constante",
-        correct: false,
-        image: "https://images.unsplash.com/photo-1518687075829-7b35f8ccf24e?w=500"
-      },
-      {
-        text: "Falta de apetite",
-        correct: false,
-        image: "https://images.unsplash.com/photo-1567440208-59d5dbf06a61?w=500"
-      },
-      {
-        text: "Sonolência excessiva",
-        correct: false,
-        image: "https://images.unsplash.com/photo-1557518344-8f45301302b5?w=500"
-      }
-    ]
-  },
-  
-  {
-    type: "multiple",
-    difficulty: "hard",
-    category: "Health: Mental Health",
-    question: "Qual desses transtornos de ansiedade é caracterizado por ataques de pânico repentinos?",
-    answers: [
-      {
-        text: "Transtorno de pânico",
-        correct: true,
-        image: "https://images.unsplash.com/photo-1557488380-cae6fe40526f?w=500"
-      },
-      {
-        text: "Transtorno de ansiedade generalizada",
-        correct: false,
-        image: "https://images.unsplash.com/photo-1532571101-d03251b81360?w=500"
-      },
-      {
-        text: "Fobia social",
-        correct: false,
-        image: "https://images.unsplash.com/photo-1562194133-b1116ca62cc7?w=500"
-      },
-      {
-        text: "Transtorno obsessivo-compulsivo",
-        correct: false,
-        image: "https://images.unsplash.com/photo-1584798223149-09113a7136b1?w=500"
-      }
-    ]
-  },
-  {
-    type: "multiple",
-    difficulty: "medium",
-    category: "Health: Mental Health",
-    question: "Qual é uma das formas mais comuns de tratamento para ansiedade?",
-    answers: [
-      {
-        text: "Terapia cognitivo-comportamental",
-        correct: true,
-        image: "https://images.unsplash.com/photo-1561481477-7e5de20a5771?w=500"
-      },
-      {
-        text: "Uso de antidepressivos",
-        correct: false,
-        image: "https://images.unsplash.com/photo-1542092286-602f7c08b413?w=500"
-      },
-      {
-        text: "Terapia ocupacional",
-        correct: false,
-        image: "https://images.unsplash.com/photo-1537670327890-441478f30219?w=500"
-      },
-      {
-        text: "Meditação constante",
-        correct: false,
-        image: "https://images.unsplash.com/photo-1509021436668-e68270288f7a?w=500"
-      }
-    ]
-  },
-  {
+  },{
     type: "multiple",
     difficulty: "easy",
     category: "Health: Mental Health",
-    question: "A ansiedade pode afetar qual parte do corpo?",
+    question: "Com que frequência você se sente nervoso(a) ou ansioso(a) antes de provas ou apresentações?",
     answers: [
       {
-        text: "Sistema nervoso",
+        text: "Não me sinto ansioso",
         correct: true,
-        image: "https://images.unsplash.com/photo-1588921851294-c82fdb556118?w=500"
+        image: ""
       },
       {
-        text: "Sistema digestivo",
-        correct: false,
-        image: "https://images.unsplash.com/photo-1587742381858-b02c98442b04?w=500"
+        text: "Pouco ansioso",
+        correct: true,
+        image: ""
       },
       {
-        text: "Sistema muscular",
-        correct: false,
-        image: "https://images.unsplash.com/photo-1562620915-58b8c436e34e?w=500"
+        text: "Muito ansioso",
+        correct: true,
+        image: ""
       },
       {
-        text: "Sistema respiratório",
-        correct: false,
-        image: "https://images.unsplash.com/photo-1532596309817-d1c593f647c9?w=500"
+        text: "Ansiedade enorme",
+        correct: true,
+        image: ""
       }
     ]
-  }
+  },
   // Continue para outras perguntas, conforme necessário
 ];
-
-
 
   let activeQuestion = 0
   let isModalOpen = false
@@ -157,6 +70,7 @@
   function nextQuestion() {
     if (activeQuestion < questions.length - 1) {
       activeQuestion = activeQuestion + 1
+      store.next()
     } else {
       isModalOpen = true
     }
@@ -164,10 +78,9 @@
 
   function resetQuiz() {
     isModalOpen = false
-    score.set(0)
+    store.reset()
     activeQuestion = 0
   }
-
 
   $: questionNumber = activeQuestion + 1
 </script>
@@ -186,19 +99,19 @@
       <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
     </svg>
     
-    <h2>Quiz Concluído! 🎉</h2>
+    <h2>Envio finalizado! 🎉</h2>
     
-    <div class="score-result">
+    <!-- <div class="score-result">
       Você acertou <span class="highlight">{$score}</span> de <span>{questions.length}</span> perguntas!
-    </div>
+    </div> -->
     
-    {#if $score === questions.length}
+    <!-- {#if $score === questions.length}
       <p class="perfect-score">Perfeito! Você é um expert no assunto! 👏</p>
     {:else if $score >= questions.length/2}
       <p class="good-score">Bom trabalho! Continue aprendendo! 💪</p>
     {:else}
       <p class="improve-score">Você pode melhorar! Que tal tentar novamente? ✨</p>
-    {/if}
+    {/if} -->
     
     <div class="modal-actions">
       <button class="restart-btn" on:click={resetQuiz}>
@@ -206,9 +119,9 @@
           <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
           <path d="M3 3v5h5"></path>
         </svg>
-        Jogar Novamente
+        Responder Novamente
       </button>
-      <a href="/" class="home-btn" on:click={resetQuiz}>
+      <a href="{base}/" class="home-btn" on:click={resetQuiz}>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
           <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -231,7 +144,7 @@
           </svg>
           Reiniciar
         </button>
-        <div class="score-badge">Pontuação: <span>{$score}</span></div>
+        <div class="score-badge">Respostas: <span>{$store.score}</span></div>
       </div>
     </div>
   </header>
@@ -240,7 +153,7 @@
     {#each questions as question, index}
       {#if index === activeQuestion}
         <div out:fade in:fly={{ y: 200, duration: 1000 }} class="fade-wrapper">
-          <Question {question} {nextQuestion} />
+          <Question {question} {nextQuestion} />  
         </div>
       {/if}
     {/each}
@@ -252,16 +165,20 @@
       <div class="progress-bar" style="width: {(activeQuestion / questions.length) * 100}%"></div>
       <div class="progress-steps">
         {#each Array(questions.length) as _, i}
-          <div 
-            class="progress-step {i === activeQuestion ? 'active' : ''} {i < activeQuestion ? 'completed' : ''}"
-            on:click={() => activeQuestion = i}
-          ></div>
-        {/each}
+        <button 
+          class="progress-step {i === activeQuestion ? 'active' : ''} {i < activeQuestion ? 'completed' : ''}"
+          on:click={() => activeQuestion = i}
+          on:keydown={(e) => e.key === 'Enter' || e.key === ' ' ? activeQuestion = i : null}
+          role="tab"
+          aria-label={`Ir para pergunta ${i + 1}`}
+          tabindex="0"
+        ></button>
+      {/each}
       </div>
     </div>
     
     <div class="footer-actions">
-      <a href="/" class="home-link" on:click={resetQuiz}>
+      <a href="{base}/" class="home-link" on:click={resetQuiz}>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
           <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -311,7 +228,10 @@
     height: 18px;
     border-radius: 50%;
     background-color: #e0e0e0;
-    cursor: pointer;
+    border: none; 
+  background: none; 
+  padding: 0; 
+  cursor: pointer; 
     transition: all 0.3s ease;
     position: relative;
     z-index: 2;
@@ -580,36 +500,6 @@
     font-size: 1.8rem;
     color: #2c3e50;
     margin-bottom: 1rem;
-  }
-
-  .score-result {
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
-    color: #555;
-  }
-
-  .highlight {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #3E7BFF;
-  }
-
-  .perfect-score {
-    color: #FFD700;
-    font-weight: 600;
-    margin-bottom: 2rem;
-  }
-
-  .good-score {
-    color: #3E7BFF;
-    font-weight: 600;
-    margin-bottom: 2rem;
-  }
-
-  .improve-score {
-    color: #FF9800;
-    font-weight: 600;
-    margin-bottom: 2rem;
   }
 
   .modal-actions {
