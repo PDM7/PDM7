@@ -1,136 +1,74 @@
 <script>
-   import { base } from "$app/paths";
-  import Modal from '$lib/modal.svelte'
+  import { base } from "$app/paths";
   import Question from '$lib/question.svelte'
   import { fade, fly } from 'svelte/transition'
   import { store } from './store.js'
+  import Results from './Results.svelte';
+  $: scoreAnsiedade = $store.scoresByCategory && $store.scoresByCategory["Ansiedade"] || 0;
+  // $: console.log(store.categoriesArray);
+ 
 
- const questions = [
-  {
-    type: "multiple",
-    difficulty: "easy",
-    category: "Health: Mental Health",
-    question: "Com que frequência você se sente nervoso(a) ou ansioso(a) antes de provas ou apresentações?",
-    answers: [
-      {
-        text: "Não me sinto ansioso",
-        correct: true,
-        image: ""
-      },
-      {
-        text: "Pouco ansioso",
-        correct: true,
-        image: ""
-      },
-      {
-        text: "Muito ansioso",
-        correct: true,
-        image: ""
-      },
-      {
-        text: "Ansiedade enorme",
-        correct: true,
-        image: ""
-      }
-    ]
-  },{
-    type: "multiple",
-    difficulty: "easy",
-    category: "Health: Mental Health",
-    question: "Com que frequência você se sente nervoso(a) ou ansioso(a) antes de provas ou apresentações?",
-    answers: [
-      {
-        text: "Não me sinto ansioso",
-        correct: true,
-        image: ""
-      },
-      {
-        text: "Pouco ansioso",
-        correct: true,
-        image: ""
-      },
-      {
-        text: "Muito ansioso",
-        correct: true,
-        image: ""
-      },
-      {
-        text: "Ansiedade enorme",
-        correct: true,
-        image: ""
-      }
-    ]
-  },
-  // Continue para outras perguntas, conforme necessário
-];
+  const questions = [
+    {
+      id: 1,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "Com que frequência você se sente nervoso(a) ou ansioso(a) antes de provas ou apresentações?",
+      answers: [
+        {id: 1, text: "Não me sinto ansioso", score: 0, image:"https://i.pinimg.com/originals/1f/c9/59/1fc959945e3daa2ad87a41c1f520a7fa.jpg" },
+        {id: 2, text: "Pouco ansioso", score: 10, image: "" },
+        {id: 3, text: "Muito ansioso", score: 20, image: "" },
+        {id: 4, text: "Ansiedade enorme", score: 30, image: "" }
+      ]
+    },
+    {
+      id: 2,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "Com que frequência você se sente nervoso(a) ou ansioso(a) antes de provas ou apresentações?2",
+      answers: [
+        {id: 1, text: "Não me sinto ansioso", score: 0, image: "" },
+        {id: 2, text: "Pouco ansioso", score: 10, image: "" },
+        {id: 3, text: "Muito ansioso", score: 20, image: "" },
+        {id: 4, text: "Ansiedade enorme", score: 30, image: "" }
+      ]
+    }
+    // Adicione mais perguntas aqui...
+  ];
 
-  let activeQuestion = 0
-  let isModalOpen = false
 
+  let activeQuestion = 0;
+  let showResults = false;
+
+  let isAnswered = false;
+  
+  // Atualize a função nextQuestion para resetar o estado
   function nextQuestion() {
+    isAnswered = false;
     if (activeQuestion < questions.length - 1) {
-      activeQuestion = activeQuestion + 1
-      store.next()
+      activeQuestion = activeQuestion + 1;
+      store.next();
     } else {
-      isModalOpen = true
+      showResults = true;
     }
   }
 
   function resetQuiz() {
-    isModalOpen = false
-    store.reset()
-    activeQuestion = 0
+    showResults = false;
+    store.reset();
+    activeQuestion = 0;
   }
 
-  $: questionNumber = activeQuestion + 1
+  $: questionNumber = activeQuestion + 1;
 </script>
 
-{#if isModalOpen}
-<Modal>
-  <div class="modal-content">
-    <div class="confetti"></div>
-    <div class="confetti"></div>
-    <div class="confetti"></div>
-    <div class="confetti"></div>
-    <div class="confetti"></div>
-    
-    <svg class="trophy-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="8" r="7"></circle>
-      <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
-    </svg>
-    
-    <h2>Envio finalizado! 🎉</h2>
-    
-    <!-- <div class="score-result">
-      Você acertou <span class="highlight">{$score}</span> de <span>{questions.length}</span> perguntas!
-    </div> -->
-    
-    <!-- {#if $score === questions.length}
-      <p class="perfect-score">Perfeito! Você é um expert no assunto! 👏</p>
-    {:else if $score >= questions.length/2}
-      <p class="good-score">Bom trabalho! Continue aprendendo! 💪</p>
-    {:else}
-      <p class="improve-score">Você pode melhorar! Que tal tentar novamente? ✨</p>
-    {/if} -->
-    
-    <div class="modal-actions">
-      <button class="restart-btn" on:click={resetQuiz}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-          <path d="M3 3v5h5"></path>
-        </svg>
-        Responder Novamente
-      </button>
-      <a href="{base}/" class="home-btn" on:click={resetQuiz}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-          <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
-        Voltar ao Início
-      </a>
-    </div>
-  </div>
-</Modal>
+
+{#if showResults}
+<div in:fade>
+  <Results {scoreAnsiedade} {resetQuiz} />
+</div>
 {:else}
 <div class="quiz-container">
   <header class="quiz-header">
@@ -144,7 +82,15 @@
           </svg>
           Reiniciar
         </button>
-        <div class="score-badge">Respostas: <span>{$store.score}</span></div>
+        
+        {#if isAnswered}
+          <button class="next-btn" on:click={nextQuestion}>
+            {activeQuestion < questions.length - 1 ? 'Próxima' : 'Finalizar'}
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        {/if}
       </div>
     </div>
   </header>
@@ -153,11 +99,17 @@
     {#each questions as question, index}
       {#if index === activeQuestion}
         <div out:fade in:fly={{ y: 200, duration: 1000 }} class="fade-wrapper">
-          <Question {question} {nextQuestion} />  
+          <Question 
+            {question} 
+            bind:isAnswered
+            onAnswerSelected={() => isAnswered = true}
+            {nextQuestion} 
+          />  
         </div>
       {/if}
     {/each}
   </main>
+
 
   <footer class="quiz-footer">
     <!-- Barra de progresso -->
@@ -189,7 +141,35 @@
     </div>
   </footer>
 </div>
-
+<style>
+  /* Adicione esses estilos */
+  .quiz-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .next-btn {
+    background: #3E7BFF;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .next-btn:hover {
+    background: #3E6BFF;
+  }
+  
+  .next-btn svg {
+    margin-left: 5px;
+  }
+</style>
 {/if}
 
 
@@ -338,19 +318,15 @@
   }
 
 
-  .score-badge {
+  /* .score-badge {
     background: #3E7BFF;
     color: white;
     padding: 0.6rem 1.2rem;
     border-radius: 50px;
     font-weight: 600;
     font-size: 0.95rem;
-  }
+  } */
 
-  .score-badge span {
-    font-weight: 700;
-    font-size: 1.1em;
-  }
 
   .quiz-content {
     flex: 1;
@@ -425,7 +401,7 @@
       padding: 1.5rem;
     }
 
-    .reset-btn, .score-badge {
+    .reset-btn {
       padding: 0.5rem 1rem;
       font-size: 0.9rem;
     }
@@ -450,26 +426,6 @@
     }
   }
 
- 
-  :global(.modal-overlay) {
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-
-  :global(.modal-container) {
-    background: white;
-    border-radius: 16px;
-    max-width: 500px;
-    width: 90%;
-    padding: 0;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    animation: modalEnter 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  }
 
   @keyframes modalEnter {
     from {
@@ -482,7 +438,7 @@
     }
   }
 
-  .modal-content {
+  /* .modal-content {
     padding: 2.5rem;
     text-align: center;
     position: relative;
@@ -591,7 +547,7 @@
     top: 30%;
     left: 60%;
     animation: confetti 3s ease 1.2s infinite;
-  }
+  } */
 
   @keyframes confetti {
     0% {
@@ -604,7 +560,7 @@
     }
   }
 
-  @media (max-width: 600px) {
+  /* @media (max-width: 600px) {
     .modal-content {
       padding: 1.5rem;
     }
@@ -622,5 +578,5 @@
       width: 100%;
       justify-content: center;
     }
-  }
+  } */
 </style>

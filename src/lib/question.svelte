@@ -2,11 +2,14 @@
   import { store } from './store.js'
   import { onMount } from 'svelte'
 
-  export let question
-  export let nextQuestion
+  export let question;
+  export let nextQuestion;
+  export let isAnswered;
+ 
 
   let selectedAnswer = null
-  let isAnswered = false
+ 
+  
 
   // Função para gerar cores e ícones dinamicamente
   function getDefaultStyle(index) {
@@ -19,22 +22,13 @@
     };
   }
 
-  function checkQuestion(answer) {
-    isAnswered = true
-    selectedAnswer = answer
-    if (answer.correct) {
-      store.save("A", 1, 0, 0, 1, 1, 1, 1)
-    }
-  }
-
   // Verifica se a imagem existe
   async function checkImageExists(imageUrl, index, element) {
-    if (!imageUrl) {
+    if (!imageUrl || imageUrl === '') {
       applyDefaultStyle(index, element);
       return;
     }
 
-    //Vamos simplificar. (ricardodarocha)
     // try {
     //   const response = await fetch(imageUrl, { method: 'HEAD' });
     //   if (!response.ok) throw new Error('Image not found');
@@ -61,15 +55,37 @@
     }
   }
 
-  // Verifica as imagens quando o componente é montado
-  onMount(() => {
-    document.querySelectorAll('.answer-card').forEach((card, index) => {
-      const img = card.querySelector('.answer-image');
-      if (img && img.src) {
-        checkImageExists(img.src, index, card);
+  // Função para permitir mudar a resposta
+  function handleAnswerClick(answer) {
+    if (selectedAnswer?.id === answer.id) {
+      selectedAnswer = null;
+      isAnswered = false;
+      store.save(question.category, -answer.score, question.id, answer.id); 
+    } else {
+      if (selectedAnswer) {
+        store.save(question.category, -selectedAnswer.score, question.id, selectedAnswer.id);
       }
+      selectedAnswer = answer;
+      isAnswered = true;
+      store.save(question.category, answer.score, question.id, answer.id);
+    }
+  }
+  onMount(() => {
+    // Verifica resposta salva
+    const savedAnswer = store.getQuestionAnswer(question.id);
+    if (savedAnswer) {
+        isAnswered = true;
+        selectedAnswer = question.answers.find(a => a.id === savedAnswer.answerId);
+    }
+
+    // Verifica imagens
+    document.querySelectorAll('.answer-card').forEach((card, index) => {
+        const img = card.querySelector('.answer-image');
+        if (img && img.src) {
+            checkImageExists(img.src, index, card);
+        }
     });
-  });
+});
 </script>
 
 <h3>
@@ -77,29 +93,34 @@
 </h3>
 
 {#if isAnswered}
-  <h4 class:correct={selectedAnswer.correct} class:incorrect={!selectedAnswer.correct}>
-      Vamos pra próxima 🎉
-  </h4>
+  <h4>Vamos pra próxima 🎉</h4>
 {/if}
 
 <div class="answers-grid">
   {#each question.answers as answer, index}
     <div class="answer-card">
       <button
-        disabled={isAnswered}
-        on:click={() => checkQuestion(answer)}
-        class:correct-answer={isAnswered && selectedAnswer === answer}
+        on:click={() => handleAnswerClick(answer)}
+        class:selected-answer={selectedAnswer?.id === answer.id}
       >
         <div class="icon-container">
           <img 
-            src={"https://i.pinimg.com/originals/1f/c9/59/1fc959945e3daa2ad87a41c1f520a7fa.jpg"}
-            alt={answer.text} 
-            class="answer-image" 
-            on:error={(e) => applyDefaultStyle(index, e.target.closest('.answer-card'))}
-          />
+          src={answer.image || 'https://i.pinimg.com/originals/1f/c9/59/1fc959945e3daa2ad87a41c1f520a7fa.jpg'}
+          alt={answer.text} 
+          class="answer-image" 
+          on:error={(e) => {
+            e.target.src = 'https://i.pinimg.com/originals/1f/c9/59/1fc959945e3daa2ad87a41c1f520a7fa.jpg';
+            applyDefaultStyle(index, e.target.closest('.answer-card'));
+          }}
+        />
+        
+
           <div class="default-icon"></div>
         </div>
         <div class="answer-text">{@html answer.text}</div>
+        {#if selectedAnswer?.id === answer.id}
+          <div class="answer-checkmark">✓</div>
+        {/if}
       </button>
     </div>
   {/each}
@@ -112,22 +133,47 @@
 {/if}
 
 <style>
-  /* (Mantemos os mesmos estilos da versão anterior) */
-  h3 {
+  .answer-card button {
+  transition: all 0.2s ease;
+}
+
+.answer-card button:hover:not(.selected-answer) {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.selected-answer {
+  border: 2px solid #4CAF50 !important;
+  background-color: #e8f5e9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+  .selected-answer {
+    border: 2px solid #4CAF50;
+    background-color: #e8f5e9;
+  }
+  
+  .answer-checkmark {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #4CAF50;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+  }
+ h3 {
     color: rgb(54, 33, 79);
     margin-bottom: 20px;
   }
 
   h4 {
     margin: 15px 0;
-  }
-
-  h4.correct {
-    color: #2e7d32;
-  }
-
-  h4.incorrect {
-    color: #c62828;
   }
 
   .answers-grid {
@@ -192,10 +238,6 @@
     padding: 12px;
     background: #f5f5f5;
     text-align: center;
-  }
-
-  .correct-answer {
-    outline: 3px solid #2e7d32;
   }
 
   .next-button {
