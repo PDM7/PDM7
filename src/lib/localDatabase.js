@@ -2,7 +2,7 @@ import { writable } from "svelte/store";
 
 export function persistStore(key, initial) {
     if (typeof window === "undefined") {
-        return writable(initial); // Return a regular writable store during SSR
+        return writable(initial);
     }
 
     const persist = localStorage.getItem(key);
