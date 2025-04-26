@@ -17,9 +17,9 @@
       question: "Com que frequência você se sente nervoso(a) ou ansioso(a) antes de provas ou apresentações?",
       answers: [
         {id: 1, text: "Não me sinto ansioso", score: 0, image:"https://i.pinimg.com/originals/1f/c9/59/1fc959945e3daa2ad87a41c1f520a7fa.jpg" },
-        {id: 2, text: "Pouco ansioso", score: 10, image: "" },
-        {id: 3, text: "Muito ansioso", score: 20, image: "" },
-        {id: 4, text: "Ansiedade enorme", score: 30, image: "" }
+        {id: 2, text: "Pouco ansioso", score: 1, image: "" },
+        {id: 3, text: "Muito ansioso", score: 2, image: "" },
+        {id: 4, text: "Ansiedade enorme", score: 3, image: "" }
       ]
     },
     {
@@ -27,12 +27,155 @@
       type: "multiple",
       difficulty: "easy",
       category: "Ansiedade",
-      question: "Com que frequência você se sente nervoso(a) ou ansioso(a) antes de provas ou apresentações?2",
+      question: "Você já se sentiu tão sobrecarregado(a) com as responsabilidades acadêmicas que teve dificuldades em dormir?",
       answers: [
         {id: 1, text: "Não me sinto ansioso", score: 0, image: "" },
-        {id: 2, text: "Pouco ansioso", score: 10, image: "" },
-        {id: 3, text: "Muito ansioso", score: 20, image: "" },
-        {id: 4, text: "Ansiedade enorme", score: 30, image: "" }
+        {id: 2, text: "Pouco ansioso", score: 1, image: "" },
+        {id: 3, text: "Muito ansioso", score: 2, image: "" },
+        {id: 4, text: "Ansiedade enorme", score: 3, image: "" }
+      ]
+    },
+    {
+      id: 3,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "Você costuma sentir que a pressão de ter que dar o seu melhor nas provas e trabalhos está afetando seu bem-estar emocional?",
+      answers: [
+        {id: 1, text: "Não me sinto ansioso", score: 0, image: "" },
+        {id: 2, text: "Pouco ansioso", score: 1, image: "" },
+        {id: 3, text: "Muito ansioso", score: 2, image: "" },
+        {id: 4, text: "Ansiedade enorme", score: 3, image: "" }
+      ]
+    },
+    {
+      id: 4,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "Você sente que se preocupa excessivamente com sua performance acadêmica, mesmo quando não há razão concreta para isso?",
+      answers: [
+        {id: 1, text: "Não me sinto ansioso", score: 0, image: "" },
+        {id: 2, text: "Pouco ansioso", score: 1, image: "" },
+        {id: 3, text: "Muito ansioso", score: 2, image: "" },
+        {id: 4, text: "Ansiedade enorme", score: 3, image: "" }
+      ]
+    },
+    {
+      id: 5,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "Com que frequência você sente sintomas físicos de ansiedade, como aumento da frequência cardíaca, respiração acelerada ou tremores?",
+      answers: [
+        {id: 1, text: "Não me sinto ansioso", score: 0, image: "" },
+        {id: 2, text: "Pouco ansioso", score: 1, image: "" },
+        {id: 3, text: "Muito ansioso", score: 2, image: "" },
+        {id: 4, text: "Ansiedade enorme", score: 3, image: "" }
+      ]
+    },
+    {
+      id: 6,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "Você já sentiu dores de cabeça ou problemas gástricos (ex: dor de estômago, náusea) devido ao estresse acadêmico?",
+      answers: [
+        {id: 1, text: "Não me sinto ansioso", score: 0, image: "" },
+        {id: 2, text: "Pouco ansioso", score: 1, image: "" },
+        {id: 3, text: "Muito ansioso", score: 2, image: "" },
+        {id: 4, text: "Ansiedade enorme", score: 3, image: "" }
+      ]
+    },
+    {
+      id: 7,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "Você tem dificuldades em se concentrar em tarefas acadêmicas devido a pensamentos ansiosos?",
+      answers: [
+        {id: 1, text: "Não me sinto ansioso", score: 0, image: "" },
+        {id: 2, text: "Pouco ansioso", score: 1, image: "" },
+        {id: 3, text: "Muito ansioso", score: 2, image: "" },
+        {id: 4, text: "Ansiedade enorme", score: 3, image: "" }
+      ]
+    },
+    {
+      id: 8,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "Você evita certos compromissos acadêmicos, como apresentações ou discussões em grupo, por medo de não se sair bem?",
+      answers: [
+        {id: 1, text: "Não me sinto ansioso", score: 0, image: "" },
+        {id: 2, text: "Pouco ansioso", score: 1, image: "" },
+        {id: 3, text: "Muito ansioso", score: 2, image: "" },
+        {id: 4, text: "Ansiedade enorme", score: 3, image: "" }
+      ]
+    },
+    {
+      id: 9,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "Quando você está enfrentando um prazo ou uma carga de trabalho pesada, você sente dificuldade em se organizar ou planejar suas atividades?",
+      answers: [
+        {id: 1, text: "Não me sinto ansioso", score: 0, image: "" },
+        {id: 2, text: "Pouco ansioso", score: 1, image: "" },
+        {id: 3, text: "Muito ansioso", score: 2, image: "" },
+        {id: 4, text: "Ansiedade enorme", score: 3, image: "" }
+      ]
+    },
+    {
+      id: 10,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "A ansiedade tem afetado sua vida social ou suas interações com amigos e colegas?",
+      answers: [
+        {id: 1, text: "Não me sinto ansioso", score: 0, image: "" },
+        {id: 2, text: "Pouco ansioso", score: 1, image: "" },
+        {id: 3, text: "Muito ansioso", score: 2, image: "" },
+        {id: 4, text: "Ansiedade enorme", score: 3, image: "" }
+      ]
+    },
+    {
+      id: 11,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "Você já se sentiu tão ansioso(a) em relação aos estudos que isso afetou sua motivação para estudar ou fazer tarefas acadêmicas?",
+      answers: [
+        {id: 1, text: "Não me sinto ansioso", score: 0, image: "" },
+        {id: 2, text: "Pouco ansioso", score: 1, image: "" },
+        {id: 3, text: "Muito ansioso", score: 2, image: "" },
+        {id: 4, text: "Ansiedade enorme", score: 3, image: "" }
+      ]
+    },
+    {
+      id: 12,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "Você já procurou ajuda (psicológica ou de colegas) para lidar com a ansiedade acadêmica?",
+      answers: [
+        {id: 1, text: "Não me sinto ansioso", score: 0, image: "" },
+        {id: 2, text: "Pouco ansioso", score: 1, image: "" },
+        {id: 3, text: "Muito ansioso", score: 2, image: "" },
+        {id: 4, text: "Ansiedade enorme", score: 3, image: "" }
+      ]
+    },
+    {
+      id: 13,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "Você utiliza técnicas de relaxamento ou meditação para reduzir a ansiedade relacionada aos estudos?",
+      answers: [
+        {id: 1, text: "Não me sinto ansioso", score: 0, image: "" },
+        {id: 2, text: "Pouco ansioso", score: 1, image: "" },
+        {id: 3, text: "Muito ansioso", score: 2, image: "" },
+        {id: 4, text: "Ansiedade enorme", score: 3, image: "" }
       ]
     }
     // Adicione mais perguntas aqui...
