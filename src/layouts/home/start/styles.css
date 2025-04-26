@@ -1,0 +1,49 @@
+#start {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 200px;
+}
+
+#start #title {
+    color: var(--color_1);
+    font-family: Inter;
+    font-weight: 900;
+    font-size: 70px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#start #description {
+    font-family: Inter;
+    font-weight: 400;
+    font-size: 26.31px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+
+    max-width: 859px;
+    margin-top: 20px;
+
+}
+ 
+#start #buttonStart {
+    font-family: Inter;
+    font-weight: 900;
+    font-size: 40.35px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-transform: uppercase;
+    color: var(--color_02);
+
+    background: var(--d_color_01);
+    width: 100%;
+    max-width: 450px;
+    padding: 24px;
+    box-sizing: border-box; 
+    border-radius: var(--border-r);
+    margin-top: 60px;
+    
+}

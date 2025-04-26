@@ -1,0 +1,39 @@
+#nav {
+    border-bottom: 1px solid var(--color_01);
+}
+
+#nav .container {
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#nav #logo {
+    width: 70px;
+    height: 70px;
+    border-radius: var(--border-r);
+} 
+
+#nav #menu {
+    display: flex;
+    align-items: center;
+}
+
+#nav #menu li a {
+    font-family: Inter;
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-transform: uppercase;
+    color: var(--color_01);
+}
+
+#nav #menu li {
+    margin-right: 20px;
+}
+
+#nav #menu li:last-child {
+    margin: 0;
+}

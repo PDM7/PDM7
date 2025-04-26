@@ -1,5 +1,25 @@
 /* Css global */
 
+
+/* Importa a font Inter do Google Fonts. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 *{
     font-family: 'Poppins', sans-serif;
     
@@ -14,3 +34,28 @@
   margin-bottom: 0px;
 }  
 
+:root {
+  /* Vai ser usada para cards e botões. "D" indica que é um degradê */
+  --d_color_01: linear-gradient(102.87deg, #3B3B3B 0.99%, #0A0A0A 100%);
+
+  /* Igual ao --d_color_01, mas não é degradê */
+  --color_01: #0A0A0A;
+
+  /* Vai ser usada para dar contraste com a a cor "color_01" e "d_color_01" */
+  --color_02: #F1EBDF;
+
+  /* Borda padrão */
+  --border-r: 8px;
+
+}
+
+body {
+  background-color: #F1EBDF;
+}
+
+.container {
+  max-width: 1700px;
+  width: 90%;
+  margin: auto;
+  
+}
