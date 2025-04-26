@@ -2,6 +2,6 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "deploy": "vite build & gh-pages -d build -t"
+    "deploy": "git checkout master & git pull & vite build & gh-pages -d build -t"
   }
 }
