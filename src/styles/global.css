@@ -5,35 +5,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*{
-    font-family: 'Poppins', sans-serif;
-    
-  }
-
-.title{
-  font-size: 6em;
-  font-weight: 900;
-  background: linear-gradient(90deg, #3E7BFF 0%, #5A8EFF 100%);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 0px;
-}  
-
 :root {
   /* Vai ser usada para cards e botões. "D" indica que é um degradê */
   --d_color_01: linear-gradient(102.87deg, #3B3B3B 0.99%, #0A0A0A 100%);
@@ -49,13 +20,35 @@
 
 }
 
+* {
+  transition: 200ms;
+}
+
 body {
   background-color: #F1EBDF;
+  font-size: 16px !important;
 }
 
 .container {
   max-width: 1700px;
   width: 90%;
   margin: auto;
-  
+}
+
+@media (max-width: 650px) {
+  body {
+    font-size: 14px !important   
+  }
+}
+
+@media (max-width: 550px) {
+  body {
+    font-size: 12px !important   
+  }
+}
+
+@media (max-width: 550px) {
+  body {
+    font-size: 10px !important   
+  }
 }

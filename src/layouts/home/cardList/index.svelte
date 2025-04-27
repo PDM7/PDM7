@@ -4,7 +4,7 @@
     import Card from "../../../componets/home/card/index.svelte";
 </script>
 
-<div class="container" id="cardList">
+<div id="cardList">
     <Card/>
     <Card/>
     <Card/>

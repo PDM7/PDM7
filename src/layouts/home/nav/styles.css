@@ -38,3 +38,11 @@
 #nav #menu li:last-child {
     margin: 0;
 }
+
+
+@media (max-width: 850px) {
+    #menu {
+        display: none !important;
+    }
+    
+}
