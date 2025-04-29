@@ -186,17 +186,7 @@
   let showResults = false;
 
   let isAnswered = false;
-  
-  // Atualize a função nextQuestion para resetar o estado
-  function nextQuestion() {
-    isAnswered = false;
-    if (activeQuestion < questions.length - 1) {
-      activeQuestion = activeQuestion + 1;
-      store.next();
-    } else {
-      showResults = true;
-    }
-  }
+
 
   function resetQuiz() {
     showResults = false;
@@ -205,6 +195,42 @@
   }
 
   $: questionNumber = activeQuestion + 1;
+
+  function goToQuestion(index) {
+    if (canNavigateTo(index)) {
+      activeQuestion = index;
+      isAnswered = $store.questionAnswers && $store.questionAnswers[questions[index].id] ? true : false;
+    }
+  }
+ 
+  function canNavigateTo(index) {
+    // Permite sempre:
+    // 1. A questão atual
+    // 2. Qualquer questão que tenha uma resposta registrada
+    return index === activeQuestion || 
+          ($store.questionAnswers && $store.questionAnswers[questions[index].id] !== undefined);
+  }
+
+  function nextQuestion() {
+    // Vai para a próxima questão independente de estar respondida ou não
+    if (activeQuestion < questions.length - 1) {
+      activeQuestion++;
+      // Atualiza o estado isAnswered baseado no registro da resposta
+      isAnswered = $store.questionAnswers && 
+                 $store.questionAnswers[questions[activeQuestion].id] !== undefined;
+    } else {
+      showResults = true;
+    }
+  }
+
+  // Função para verificar se uma questão foi respondida
+  function isQuestionAnswered(index) {
+    return $store.questionAnswers && 
+           $store.questionAnswers[questions[index].id] !== undefined;
+  }
+
+
+  
 </script>
 
 
@@ -260,15 +286,33 @@
       <div class="progress-bar" style="width: {(activeQuestion / questions.length) * 100}%"></div>
       <div class="progress-steps">
         {#each Array(questions.length) as _, i}
-        <button 
-          class="progress-step {i === activeQuestion ? 'active' : ''} {i < activeQuestion ? 'completed' : ''}"
-          on:click={() => activeQuestion = i}
-          on:keydown={(e) => e.key === 'Enter' || e.key === ' ' ? activeQuestion = i : null}
-          role="tab"
-          aria-label={`Ir para pergunta ${i + 1}`}
-          tabindex="0"
-        ></button>
-      {/each}
+          <button 
+            class="progress-step 
+              {i === activeQuestion ? 'active' : ''} 
+              {isQuestionAnswered(i) ? 'completed' : ''}
+              {!canNavigateTo(i) ? 'locked' : ''}"
+            on:click={() => goToQuestion(i)}
+            disabled={!canNavigateTo(i)}
+          >
+            {#if !canNavigateTo(i)}
+              <!-- Ícone de cadeado -->
+              <svg 
+              width="12" 
+              height="12" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              stroke-width="2"
+            >
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            
+            {:else}
+              {i + 1}
+            {/if}
+          </button>
+        {/each}
       </div>
     </div>
     
@@ -285,7 +329,21 @@
   </footer>
 </div>
 <style>
-  /* Adicione esses estilos */
+   .progress-step.locked {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #f0f0f0;
+    color: #999;
+  }
+  
+  .progress-step.locked svg {
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .progress-step[disabled] {
+    pointer-events: none;
+  }
   .quiz-controls {
     display: flex;
     gap: 10px;

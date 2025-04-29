@@ -52,26 +52,22 @@ function createStore() {
         // Modifique o método save:
         save: (category, score, questionId, answerId) => {
             update(s => {
-                const currentScores = s.scoresByCategory || {};
-                const currentScore = currentScores[category] || 0;
-                
-                // Encontra resposta anterior para esta pergunta
-                const previousAnswer = s.questionAnswers?.[questionId];
-                
-                return {
-                    ...s,
-                    scoresByCategory: {
-                        ...currentScores,
-                        [category]: currentScore + score
-                    },
-                    questionAnswers: {
-                        ...s.questionAnswers,
-                        [questionId]: score !== 0 ? { answerId, score: Math.abs(score) } : null
-                    }
-                };
+              const currentScores = s.scoresByCategory || {};
+              const currentScore = currentScores[category] || 0;
+              
+              return {
+                ...s,
+                scoresByCategory: {
+                  ...currentScores,
+                  [category]: currentScore + score
+                },
+                questionAnswers: {
+                  ...s.questionAnswers,
+                  [questionId]: { answerId, score: Math.abs(score) }
+                }
+              };
             });
-        },
-
+          },
         next: () => {
             update(s => ({
                 ...s,
