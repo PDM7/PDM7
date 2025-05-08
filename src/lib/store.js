@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { writable, get } from 'svelte/store';
 import { persistStore } from './localDatabase';
 
 const defaultData = {
@@ -11,63 +11,48 @@ const defaultData = {
 };
 
 function createStore() {
-    const { subscribe, set, update } = persistStore('data', writable(defaultData));
+    const dataStore = persistStore('data', writable(defaultData));
+    const { subscribe, set, update } = dataStore;
 
     return {
         subscribe,
-        
+
         getCategoriesArray: () => {
-            let categories = [];
-            subscribe(($store) => {
-                // Verificação segura
-                const scores = $store.scoresByCategory || {};
-                categories = Object.entries(scores).map(([name, score]) => ({
-                    name, 
-                    score
-                }));
-            })();
-            return categories;
+            const $store = get(dataStore);
+            const scores = $store.scoresByCategory || {};
+            return Object.entries(scores).map(([name, score]) => ({ name, score }));
         },
-        
+
         get categoriesArray() {
-            let arr = [];
-            subscribe($store => {
-                // Verificação segura
-                const scores = $store.scoresByCategory || {};
-                arr = Object.entries(scores).map(([name, score]) => ({
-                    name,
-                    score
-                }));
-            })();
-            return arr;
+            const $store = get(dataStore);
+            const scores = $store.scoresByCategory || {};
+            return Object.entries(scores).map(([name, score]) => ({ name, score }));
         },
+
         getQuestionAnswer: (questionId) => {
-            let answer;
-            subscribe($store => {
-                answer = $store.questionAnswers?.[questionId] || null;
-            })();
-            return answer;
+            const $store = get(dataStore);
+            return $store.questionAnswers?.[questionId] || null;
         },
-        
-        // Modifique o método save:
+
         save: (category, score, questionId, answerId) => {
             update(s => {
-              const currentScores = s.scoresByCategory || {};
-              const currentScore = currentScores[category] || 0;
-              
-              return {
-                ...s,
-                scoresByCategory: {
-                  ...currentScores,
-                  [category]: currentScore + score
-                },
-                questionAnswers: {
-                  ...s.questionAnswers,
-                  [questionId]: { answerId, score: Math.abs(score) }
-                }
-              };
+                const currentScores = s.scoresByCategory || {};
+                const currentScore = currentScores[category] || 0;
+
+                return {
+                    ...s,
+                    scoresByCategory: {
+                        ...currentScores,
+                        [category]: currentScore + score
+                    },
+                    questionAnswers: {
+                        ...s.questionAnswers,
+                        [questionId]: { answerId, score: Math.abs(score) }
+                    }
+                };
             });
-          },
+        },
+
         next: () => {
             update(s => ({
                 ...s,
@@ -78,17 +63,59 @@ function createStore() {
         },
 
         reset: () => set(defaultData),
-        
+
         getCategoryScore: (category) => {
-            let score = 0;
-            subscribe($store => {
-                // Verificação segura
-                const scores = $store.scoresByCategory || {};
-                score = scores[category] || 0;
-            })();
-            return score;
+            const $store = get(dataStore);
+            return $store.scoresByCategory?.[category] || 0;
         },
-       
+
+        setQuestions: (questions) => {
+            update(s => ({ ...s, questions }));
+        },
+
+        // Obtendo as perguntas do store
+        getQuestions: () => {
+            const $store = get(dataStore);
+            return $store.questions || [];
+        },
+
+        submitToAPI: async (endpoint) => {
+            const $store = get(dataStore);
+
+            const respostasDetalhadas = Object.entries($store.questionAnswers).map(([questionId, resposta]) => {
+                const pergunta = $store.questions.find(q => q.id === parseInt(questionId));
+                const alternativa = pergunta?.answers.find(a => a.id === resposta.answerId);
+
+                return {
+                    id: questionId,
+                    pergunta: pergunta?.question || '',
+                    resposta: alternativa?.text || '',
+                    score: resposta.score
+                };
+            });
+
+            const payload = {
+                respostas: respostasDetalhadas,
+                pontuacoes: $store.scoresByCategory
+            };
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erro: ${response.statusText}`);
+                }
+
+                return await response.json();
+            } catch (err) {
+                console.error("Falha ao enviar para API:", err);
+                return null;
+            }
+        }
     };
 }
 

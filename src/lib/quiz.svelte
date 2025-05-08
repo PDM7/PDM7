@@ -19,7 +19,7 @@
         {id: 1, text: "Não me sinto ansioso", score: 0, image:"https://i.pinimg.com/originals/1f/c9/59/1fc959945e3daa2ad87a41c1f520a7fa.jpg" },
         {id: 2, text: "Pouco ansioso", score: 1, image: "" },
         {id: 3, text: "Muito ansioso", score: 2, image: "" },
-        {id: 4, text: "Ansiedade enorme", score: 3, image: "" }
+        {id: 4, text: "Ansiedade e norme", score: 3, image: "" }
       ]
     },
     {
@@ -180,7 +180,7 @@
     }
     // Adicione mais perguntas aqui...
   ];
-
+  store.setQuestions(questions);
 
   let activeQuestion = 0;
   let showResults = false;

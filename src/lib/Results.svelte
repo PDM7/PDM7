@@ -1,7 +1,16 @@
 <script>
   export let scoreAnsiedade;
   export let resetQuiz;
+  import { onMount } from 'svelte';
+  import { store } from './store.js'
   import { base } from "$app/paths";
+
+  onMount(async () => {
+    const response = await store.submitToAPI('/api/mail/');
+    if (response) {
+        console.log("Enviado com sucesso!", response);
+    }
+});
 </script>
 
 <div class="results-page">
