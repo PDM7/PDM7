@@ -8,5 +8,3 @@ services:
     environment:
       - SMTP_USERNAME=${SMTP_USERNAME}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
-    ports:
-      - "80:80" 

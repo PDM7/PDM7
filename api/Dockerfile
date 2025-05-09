@@ -13,7 +13,8 @@ RUN apt-get update && apt-get install -y \
     libmcrypt-dev \
     libc-client-dev \
     libkrb5-dev \
-    libonig-dev  # Corrigido para libonig-dev
+    libonig-dev && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Configura e instala a extensão gd com suporte a freetype e jpeg
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
@@ -39,6 +40,9 @@ RUN docker-php-ext-install \
 
 # Habilita o módulo rewrite do Apache
 RUN a2enmod rewrite
+
+# Copia o código do aplicativo para o diretório correto
+COPY . /var/www/html/
 
 # Limpeza para reduzir o tamanho da imagem
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
