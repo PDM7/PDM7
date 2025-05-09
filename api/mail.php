@@ -1,4 +1,5 @@
 <?php
+mb_internal_encoding('UTF-8');
 // Função para carregar o arquivo .env
 function loadEnv($file) {
     if (!file_exists($file)) {
@@ -72,10 +73,12 @@ function enviarEmail($data) {
     $html .= '</table>';
     $html .= '<p><small>Email automático, não responda.</small></p>';
     $html .= '</body></html>';
+    $html = mb_convert_encoding($html, 'UTF-8', 'auto');
 
     $mail = new PHPMailer(true);
     try {
         $mail->isSMTP();
+        $mail->CharSet = 'UTF-8';
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
         $mail->Username = $smtpUsername;
@@ -84,7 +87,7 @@ function enviarEmail($data) {
         $mail->Port = 587;
 
         $mail->setFrom('colmeiapdm7@gmail.com', 'Sistema de Avaliação');
-        $mail->addAddress('colmeiapdm7@email.com', 'Retorno');
+        $mail->addAddress('colmeiapdm7@gmail.com', 'Retorno');
 
         $mail->isHTML(true);
         $mail->Subject = 'Resultado da Avaliação de Ansiedade Acadêmica';
