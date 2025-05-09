@@ -1,4 +1,34 @@
 <?php
+// Função para carregar o arquivo .env
+function loadEnv($file) {
+    if (!file_exists($file)) {
+        throw new Exception('Arquivo .env não encontrado.');
+    }
+
+    $lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+    foreach ($lines as $line) {
+        // Ignorar comentários
+        if (strpos(trim($line), '#') === 0) {
+            continue;
+        }
+
+        // Dividir chave e valor
+        list($key, $value) = explode('=', $line, 2);
+        $key = trim($key);
+        $value = trim($value);
+
+        // Definir a variável no ambiente
+        putenv("{$key}={$value}");
+    }
+}
+
+// Carregar as variáveis do arquivo .env
+loadEnv(__DIR__ . '/dados.env');
+
+// Agora você pode acessar as variáveis diretamente com getenv()
+$smtpUsername = getenv('SMTP_USERNAME');
+$smtpPassword = getenv('SMTP_PASSWORD');
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");  

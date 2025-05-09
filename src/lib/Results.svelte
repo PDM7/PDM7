@@ -6,7 +6,7 @@
   import { base } from "$app/paths";
 
   onMount(async () => {
-    const response = await store.submitToAPI('http://pdm7.hstn.me/api/mail/');
+    const response = await store.submitToAPI('https://pdm7.onrender.com/mail.php');
     if (response) {
         console.log("Enviado com sucesso!", response);
     }
