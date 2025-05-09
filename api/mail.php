@@ -30,9 +30,13 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-W
 header('Content-Type: application/json; charset=utf-8');
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type");
     http_response_code(200);
     exit();
 }
+
 
 function enviarEmail($data) {
     $smtpUsername = getenv('SMTP_USERNAME');
@@ -103,7 +107,8 @@ function enviarEmail($data) {
 
 // Se for via POST normal
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = json_decode($_POST['data'] ?? '', true);
+    $data = json_decode(file_get_contents("php://input"), true);
+
     echo json_encode(enviarEmail($data));
 }
 ?>
