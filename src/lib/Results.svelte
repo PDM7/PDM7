@@ -6,7 +6,7 @@
   import { base } from "$app/paths";
 
   onMount(async () => {
-    const response = await store.submitToAPI('http://pdm7.infinityfreeapp.com/api/mail/');
+    const response = await store.submitToAPI('http://pdm7.hstn.me/api/mail/');
     if (response) {
         console.log("Enviado com sucesso!", response);
     }
