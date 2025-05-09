@@ -40,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 function enviarEmail($data) {
     $smtpUsername = getenv('SMTP_USERNAME');
+    echo $smtpUsername;
     $smtpPassword = getenv('SMTP_PASSWORD');
 
     if (!$data || !isset($data['respostas']) || !isset($data['pontuacoes'])) {
