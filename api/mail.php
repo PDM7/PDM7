@@ -107,8 +107,7 @@ function enviarEmail($data) {
 
 // Se for via POST normal
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = json_decode(file_get_contents("php://input"), true);
-
+    $data = json_decode($_POST['data'] ?? '', true);
     echo json_encode(enviarEmail($data));
 }
 ?>
