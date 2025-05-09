@@ -36,15 +36,15 @@ function enviarEmail($data) {
 
     if ($scoreAnsiedade <= 12) {
         $nivelAnsiedade = 'Ansiedade Leve';
-        $mensagemAnsiedade = 'A ansiedade leve é uma sensação natural...';
+        $mensagemAnsiedade = 'A ansiedade leve é uma sensação natural de nervosismo ou preocupação que acontece em situações como provas, entrevistas ou mudanças importantes na vida. Ela pode causar um pouco de inquietação ou preocupação, mas não atrapalha as atividades diárias, inclusive é saudável e ajuda nos processos psíquicos.';
         $classeCss = 'result-good';
     } elseif ($scoreAnsiedade <= 25) {
         $nivelAnsiedade = 'Sinais de Alerta para Ansiedade';
-        $mensagemAnsiedade = 'Quando a ansiedade dura muito tempo...';
+        $mensagemAnsiedade = 'Quando a ansiedade dura muito tempo ou começa a afetar suas atividades diárias é um sinal de que algo mais sério pode estar acontecendo. Sintomas como dificuldade para dormir, preocupação constante, tensão no corpo, alterações no apetite ou libido, baixa concentração ou medo excessivo são sinais de alerta.';
         $classeCss = 'result-warning';
     } else {
         $nivelAnsiedade = 'Requer atenção para a ansiedade';
-        $mensagemAnsiedade = 'Se a ansiedade começar a atrapalhar sua rotina...';
+        $mensagemAnsiedade = 'Se a ansiedade começar a atrapalhar sua rotina ou se os sintomas citados no sinal de alerta persistirem, é importante buscar a ajuda profissional. A psicoterapia e em alguns casos medicamentos, podem ajudar a controlar a ansiedade e melhorar sua qualidade de vida. Resistir a buscar ajuda, pode trazer sérios prejuízos. Cuidar da saúde mental não é fraqueza, é vida.';
         $classeCss = 'result-alert';
     }
 
