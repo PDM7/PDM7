@@ -37,10 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit();
 }
 
-
 function enviarEmail($data) {
     $smtpUsername = getenv('SMTP_USERNAME');
-    echo $smtpUsername;
     $smtpPassword = getenv('SMTP_PASSWORD');
 
     if (!$data || !isset($data['respostas']) || !isset($data['pontuacoes'])) {
@@ -67,16 +65,16 @@ function enviarEmail($data) {
 
     $html = '<html><body>';
     $html .= '<h1>Resultado da Avaliação de Ansiedade Acadêmica</h1>';
-    $html .= "<div class=\"$classeCss\"><strong>$nivelAnsiedade</strong><p>$mensagemAnsiedade</p></div>";
+    $html .= "<div style=\"padding: 20px; border-left: 5px solid; margin-bottom: 20px;\"><strong>$nivelAnsiedade</strong><p>$mensagemAnsiedade</p></div>";
     $html .= "<p>Pontuação: <strong>$scoreAnsiedade</strong></p>";
-    $html .= '<table border="1" cellpadding="5" cellspacing="0"><tr><th>Pergunta</th><th>Resposta</th><th>Pontuação</th></tr>';
+    $html .= '<table border="1" cellpadding="5" cellspacing="0" style="width: 100%; margin-bottom: 20px;"><tr><th>Pergunta</th><th>Resposta</th><th>Pontuação</th></tr>';
 
     foreach ($respostas as $resposta) {
         $html .= "<tr><td>{$resposta['pergunta']}</td><td>{$resposta['resposta']}</td><td>{$resposta['score']}</td></tr>";
     }
 
     $html .= '</table>';
-    $html .= '<p><small>Email automático, não responda.</small></p>';
+    $html .= '<p><small>Este e-mail foi enviado automaticamente como resposta ao seu teste de ansiedade acadêmica. Não responda este e-mail.</small></p>';
     $html .= '</body></html>';
     $html = mb_convert_encoding($html, 'UTF-8', 'auto');
 
@@ -91,24 +89,47 @@ function enviarEmail($data) {
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
-        $mail->setFrom('colmeiapdm7@gmail.com', 'Sistema de Avaliação');
-        $mail->addAddress('colmeiapdm7@gmail.com', 'Retorno');
+        $mail->setFrom('colmeiapdm7@gmail.com', 'Sistema de Avaliação de Ansiedade');
+        
+        // Lógica modificada para destinatários
+        if (isset($data['email']) && filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            // Se tem e-mail do usuário, envia apenas para ele
+            $mail->addAddress($data['email']);
+            $destinatario = $data['email'];
+        } else {
+            // Se não tem e-mail do usuário, envia apenas para você, com data
+            $mail->addAddress('colmeiapdm7@gmail.com', 'Retorno ' . date('d/m/Y H:i:s'));
+            $destinatario = 'colmeiapdm7@gmail.com';
+        }
 
         $mail->isHTML(true);
-        $mail->Subject = 'Resultado da Avaliação de Ansiedade Acadêmica';
+        $mail->Subject = isset($data['email']) ? 'Seu Resultado da Avaliação' : 'Novo Resultado de Avaliação';
         $mail->Body = $html;
         $mail->AltBody = strip_tags($html);
 
         $mail->send();
-        return ['success' => 'Email enviado com sucesso'];
+        
+        // Retorno diferente dependendo de quem recebeu
+        if (isset($data['email'])) {
+            return ['success' => 'E-mail enviado com sucesso para o usuário'];
+        } else {
+            return ['success' => 'Relatório enviado para administração'];
+        }
     } catch (Exception $e) {
-        return ['error' => "Erro ao enviar o email. Mailer Error: {$mail->ErrorInfo}"];
+        return ['error' => "Erro ao enviar o e-mail. Mailer Error: {$mail->ErrorInfo}"];
     }
 }
 
 // Se for via POST normal
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = json_decode($_POST['data'] ?? '', true);
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
+    
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        echo json_encode(['error' => 'Dados JSON inválidos']);
+        exit;
+    }
+    
     echo json_encode(enviarEmail($data));
 }
 ?>

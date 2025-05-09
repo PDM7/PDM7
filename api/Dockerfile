@@ -40,7 +40,7 @@ RUN docker-php-ext-install \
 
 # Habilita o módulo rewrite do Apache
 RUN a2enmod rewrite
-
+RUN a2enmod headers
 # Copia o código do aplicativo para o diretório correto
 COPY . /var/www/html/
 

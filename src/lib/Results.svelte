@@ -5,21 +5,43 @@
   import { store } from './store.js'
   import { base } from "$app/paths";
 
+  let showEmailInput = false;
+  let email = '';
+  
+  function toggleEmailInput() {
+    showEmailInput = !showEmailInput;
+  }
+  
+  async function sendEmail() {
+    if (!email) return;
+    
+    try {
+      const response = await store.submitToAPI('https://pdm7.onrender.com/mail.php', { email });
+      if (response) {
+        console.log("E-mail enviado com sucesso!", response);
+        alert("Cópia das respostas enviada para o e-mail com sucesso!");
+        showEmailInput = false;
+        email = '';
+      }
+    } catch (error) {
+      console.error("Erro ao enviar e-mail:", error);
+      alert("Ocorreu um erro ao enviar o e-mail. Por favor, tente novamente.");
+    }
+  }
+
   onMount(async () => {
-    const response = await store.submitToAPI('https://pdm7.onrender.com/mail.php');
+    const response = await store.submitToAPI('https://.onrender.com/mail.php');
     if (response) {
         console.log("Enviado com sucesso!", response);
     }
-});
+  });
 </script>
 
 <div class="results-page">
-  <div class="confetti"></div>
-  <div class="confetti"></div>
-  <div class="confetti"></div>
-  <div class="confetti"></div>
-  <div class="confetti"></div>
-  
+    {#each Array(20) as _, i}
+        <div class="confetti" style="left: {Math.random() * 100}%; top: {Math.random() * 100}%; animation-delay: {Math.random() * 5}s; background-color: hsl({Math.random() * 360}, 100%, 50%);"></div>
+    {/each}
+
   <svg class="trophy-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="8" r="7"></circle>
       <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
@@ -61,7 +83,28 @@
           </svg>
           Voltar ao Início
       </a>
+      <button class="email-btn" on:click={toggleEmailInput}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          Enviar cópia das respostas para o e-mail
+      </button>
   </div>
+  
+  {#if showEmailInput}
+    <div class="email-input-container">
+      <input 
+        type="email" 
+        bind:value={email}
+        placeholder="Digite seu e-mail"
+        class="email-input"
+      />
+      <button on:click={sendEmail} class="send-email-btn">
+          Enviar
+      </button>
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -136,9 +179,10 @@
       justify-content: center;
       gap: 1rem;
       margin-top: 2rem;
+      flex-wrap: wrap;
   }
 
-  .restart-btn, .home-btn {
+  .restart-btn, .home-btn, .email-btn {
       padding: 0.75rem 1.5rem;
       border-radius: 4px;
       display: inline-flex;
@@ -149,7 +193,7 @@
       transition: all 0.3s ease;
   }
 
-  .restart-btn:hover, .home-btn:hover {
+  .restart-btn:hover, .home-btn:hover, .email-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   }
@@ -164,5 +208,39 @@
       background-color: #f5f5f5;
       color: #333;
       border: 1px solid #ddd;
+  }
+
+  .email-btn {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+  }
+
+  .email-input-container {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+  }
+
+  .email-input {
+      padding: 0.75rem;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      min-width: 250px;
+  }
+
+  .send-email-btn {
+      padding: 0.75rem 1.5rem;
+      background-color: #3f51b5;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+  }
+
+  .send-email-btn:hover {
+      background-color: #303f9f;
   }
 </style>
