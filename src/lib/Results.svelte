@@ -30,10 +30,8 @@
   }
 
   onMount(async () => {
-    const response = await store.submitToAPI('https://.onrender.com/mail.php');
-    if (response) {
-        console.log("Enviado com sucesso!", response);
-    }
+    const response = await store.submitToAPI('https://pdm7.onrender.com/mail.php');
+  
   });
 </script>
 

@@ -85,7 +85,7 @@ function createStore() {
       return $store.questions || []
     },
 
-    submitToAPI: async endpoint => {
+    submitToAPI: async (endpoint, extra = {}) => {
       const $store = get(dataStore)
 
       const respostasDetalhadas = Object.entries(
@@ -109,20 +109,16 @@ function createStore() {
       const payload = {
         respostas: respostasDetalhadas,
         pontuacoes: $store.scoresByCategory,
+        ...extra,
       }
 
-      console.log('Enviando para API:', payload)
-
       try {
-        const formData = new URLSearchParams()
-        formData.append('data', JSON.stringify(payload))
-
         const response = await fetch(endpoint, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/json',
           },
-          body: formData.toString(),
+          body: JSON.stringify(payload),
         })
 
         if (!response.ok) {

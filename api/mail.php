@@ -1,19 +1,5 @@
 <?php
 mb_internal_encoding('UTF-8');
-// Função para carregar o arquivo .env
-function loadEnv($file) {
-    if (!file_exists($file)) {
-        throw new Exception('Arquivo .env não encontrado.');
-    }
-
-    $lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    foreach ($lines as $line) {
-        if (strpos(trim($line), '#') === 0) continue;
-        list($key, $value) = explode('=', $line, 2);
-        putenv(trim("{$key}={$value}"));
-    }
-}
-
 // Autoload do PHPMailer
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -21,8 +7,7 @@ require 'libs/PHPMailer/src/Exception.php';
 require 'libs/PHPMailer/src/PHPMailer.php';
 require 'libs/PHPMailer/src/SMTP.php';
 
-// Carrega .env
-loadEnv(__DIR__ . '/dados.env');
+
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");  
