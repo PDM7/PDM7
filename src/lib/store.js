@@ -111,7 +111,7 @@ function createStore() {
         pontuacoes: $store.scoresByCategory,
         ...extra,
       }
-      console.log('Enviando para API:', payload)
+     
       try {
         const response = await fetch(endpoint, {
           method: 'POST',
