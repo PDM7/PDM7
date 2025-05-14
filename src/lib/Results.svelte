@@ -31,6 +31,10 @@
 
   onMount(async () => {
     const response = await store.submitToAPI('https://pdm7.onrender.com/mail.php');
+
+   
+    const bd = await store.submitToAPI('https://pdm7.onrender.com/repository.php', {qid: 1, classe: 'Ciências da Computação - 1º Período', salvar: 'Development'});
+    
   
   });
 </script>

@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    environment:
-      - SMTP_USERNAME=${SMTP_USERNAME}
-      - SMTP_PASSWORD=${SMTP_PASSWORD}
+    ports:
+      - "0:80"
+    env_file:
+      - dados.env
