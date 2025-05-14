@@ -1,5 +1,5 @@
 --insere tres registros de demonstracao, note a release "DEMO"
-INSERT INTO public.perfil (
+INSERT INTO public.analise (
         id,
         qid,
         classe,
