@@ -234,14 +234,15 @@ class Database
             $release = $data['salvar'] ?? 'Development';
             $resume  = $data['pontuacoes']['Ansiedade'] ?? 'N/A';
 
+            $payload = json_encode($data);
             $sql = "
-                INSERT INTO perfil (qid, classe, response, assign, payload, release, resume)
+                INSERT INTO public.analise (qid, classe, response, assign, payload, release, resume)
                 VALUES (
                     '$qid',
                     '$classe',
                     '$response',
                     '$assign',
-                    '$data',
+                    '$payload',
                     '$release',
                     '$resume'
                 );
@@ -252,7 +253,7 @@ class Database
 
             return ['success' => true, 'id' => $id];
         } catch (PDOException $e) {
-            return ['error' => 'Erro ao inserir perfil: ' . $e->getMessage()];
+            return ['error' => 'Erro ao inserir: ' . $e->getMessage()];
         }
     }
 
