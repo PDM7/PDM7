@@ -31,6 +31,11 @@
 
   onMount(async () => {
     const response = await store.submitToAPI('https://pdm7.onrender.com/mail.php');
+    console.log("Resposta do email:", response);
+   
+    const bd = await store.submitToAPI('https://pdm7.onrender.com/repository.php?salvar', {qid: 1, classe: 'Ciências da Computação - 1º Período', salvar: 'Development'});
+    console.log("Resposta do banco de dados:", bd);
+    
   
   });
 </script>

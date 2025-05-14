@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     libmcrypt-dev \
     libc-client-dev \
     libkrb5-dev \
+    libpq-dev \
     libonig-dev && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -23,6 +24,8 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 # Configura e instala a extensão imap com suporte a kerberos e SSL
 RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install imap
+    
+RUN docker-php-ext-install pdo_pgsql
 
 # Instala outras extensões PHP
 RUN docker-php-ext-install \
