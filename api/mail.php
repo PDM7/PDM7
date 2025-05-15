@@ -6,7 +6,7 @@ use PHPMailer\PHPMailer\Exception;
 require 'libs/PHPMailer/src/Exception.php';
 require 'libs/PHPMailer/src/PHPMailer.php';
 require 'libs/PHPMailer/src/SMTP.php';
-require_once 'Repository.php';
+require_once './repository.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");  
