@@ -231,7 +231,7 @@ class Database
             $response = implode(', ', array_map(fn($r) => $r['score'], $data['respostas']));
 
             $assign  = $data['assign'] ?? time();
-            $release = $data['salvar'] ?? 'Development';
+            $release = $data['salvar'] ?? 'Master';
             $resume  = $data['pontuacoes']['Ansiedade'] ?? 'N/A';
 
             $payload = json_encode($data);
