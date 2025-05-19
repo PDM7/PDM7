@@ -105,11 +105,11 @@
       >
         <div class="icon-container">
           <img 
-          src={answer.image || 'https://i.pinimg.com/originals/1f/c9/59/1fc959945e3daa2ad87a41c1f520a7fa.jpg'}
+          src={answer.image || 'https://static.vecteezy.com/system/resources/thumbnails/048/863/635/small_2x/wavy-beige-gradient-background-with-light-color-texture-nude-neutral-gradation-bg-white-and-brown-elegant-champagne-abstract-wallpaper-soft-warm-pastel-delicate-backdrop-vector.jpg'}
           alt={answer.text} 
           class="answer-image" 
           on:error={(e) => {
-            e.target.src = 'https://i.pinimg.com/originals/1f/c9/59/1fc959945e3daa2ad87a41c1f520a7fa.jpg';
+            e.target.src = 'https://static.vecteezy.com/system/resources/thumbnails/048/863/635/small_2x/wavy-beige-gradient-background-with-light-color-texture-nude-neutral-gradation-bg-white-and-brown-elegant-champagne-abstract-wallpaper-soft-warm-pastel-delicate-backdrop-vector.jpg';
             applyDefaultStyle(index, e.target.closest('.answer-card'));
           }}
         />
@@ -128,7 +128,7 @@
 
 {#if isAnswered}
   <div class="next-button">
-    <button on:click={nextQuestion}>Próxima pergunta</button>
+    <button class="next-btn" on:click={nextQuestion}>Próxima pergunta</button>
   </div>
 {/if}
 
@@ -136,6 +136,8 @@
   .answer-card button {
   transition: all 0.2s ease;
 }
+
+
 
 .answer-card button:hover:not(.selected-answer) {
   transform: translateY(-2px);
@@ -164,7 +166,7 @@
     height: 20px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    /* justify-content: center; */
     font-size: 12px;
   }
  h3 {
@@ -185,14 +187,15 @@
 
   .answer-card {
     display: flex;
-    flex-direction: column;
     height: 100%;
+    vertical-align: center;
   }
 
   .answer-card button {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     height: 100%;
+    width: 100%;
     padding: 0;
     border: none;
     border-radius: 8px;
@@ -214,30 +217,38 @@
 
   .icon-container {
     position: relative;
-    width: 100%;
+    min-width: 164px;
     height: 150px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    vertical-align: center;
     background-color: transparent;
   }
 
   .answer-image {
-    width: 100%;
+    min-width: 164px;
     height: 100%;
+    aspect-ratio: 1;
     object-fit: cover;
+    border-radius: 6px;
   }
 
   .default-icon {
     position: absolute;
     font-size: 3em;
     display: none;
+    vertical-align: center;
   }
 
   .answer-text {
     padding: 12px;
     background: #f5f5f5;
     text-align: center;
+    vertical-align: center;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: large;
   }
 
   .next-button {
@@ -245,13 +256,23 @@
     text-align: center;
   }
 
-  .next-button button {
-    background: #3f51b5;
+  .next-button button { 
+    background: #3E7BFF;
     color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 8px 16px;
+    border-radius: 20px;
     border: none;
+    display: flex;
+    margin-left: auto;
+    align-items: center;
+    gap: 5px;
     cursor: pointer;
+    transition: background 0.3s;
+    min-height: 40px;
+  }
+   
+  .next-button button:hover {
+    background: #3E6BFF;
   }
 
   @media (max-width: 600px) {

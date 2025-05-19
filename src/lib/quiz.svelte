@@ -10,50 +10,157 @@
 
   const questions = [
     {
-      id: 1,
+      id: 5,
       type: "multiple",
       difficulty: "easy",
       category: "Ansiedade",
-      question: "Com que frequência você se sente nervoso(a) ou ansioso(a) antes de provas ou apresentações?",
+      question: "Como você define a sua saúde mental atualmente?",
       answers: [
-        {id: 1, text: "Não me sinto ansioso", score: 0, image:"https://i.pinimg.com/originals/1f/c9/59/1fc959945e3daa2ad87a41c1f520a7fa.jpg" },
-        {id: 2, text: "Pouco ansioso", score: 10, image: "" },
-        {id: 3, text: "Muito ansioso", score: 20, image: "" },
-        {id: 4, text: "Ansiedade enorme", score: 30, image: "" }
+        {id: 1, text: "Excelente", score: 0, image:"https://static.vecteezy.com/system/resources/thumbnails/048/863/635/small_2x/wavy-beige-gradient-background-with-light-color-texture-nude-neutral-gradation-bg-white-and-brown-elegant-champagne-abstract-wallpaper-soft-warm-pastel-delicate-backdrop-vector.jpg" },
+        {id: 2, text: "Boa", score: 1, image: "" },
+        {id: 3, text: "Ruim", score: 2, image: "" },
+        {id: 4, text: "Muito Ruim", score: 3, image: "" }
       ]
     },
     {
-      id: 2,
+      id: 6,
       type: "multiple",
       difficulty: "easy",
       category: "Ansiedade",
-      question: "Com que frequência você se sente nervoso(a) ou ansioso(a) antes de provas ou apresentações?2",
+      question: "Como estava sua saúde mental ao ingressar na graduação?",
       answers: [
-        {id: 1, text: "Não me sinto ansioso", score: 0, image: "" },
-        {id: 2, text: "Pouco ansioso", score: 10, image: "" },
-        {id: 3, text: "Muito ansioso", score: 20, image: "" },
-        {id: 4, text: "Ansiedade enorme", score: 30, image: "" }
+        {id: 1, text: "Excelente", score: 0, image:"https://static.vecteezy.com/system/resources/thumbnails/048/863/635/small_2x/wavy-beige-gradient-background-with-light-color-texture-nude-neutral-gradation-bg-white-and-brown-elegant-champagne-abstract-wallpaper-soft-warm-pastel-delicate-backdrop-vector.jpg" },
+        {id: 2, text: "Boa", score: 1, image: "" },
+        {id: 3, text: "Ruim", score: 2, image: "" },
+        {id: 4, text: "Muito Ruim", score: 3, image: "" }
+      ]
+    },
+    {
+      id: 7,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "Com que frequência você se sente nervoso(a) ou ansioso(a) antes das provas?",
+      answers: [
+        {id: 1, text: "Nunca", score: 0, image:"https://static.vecteezy.com/system/resources/thumbnails/048/863/635/small_2x/wavy-beige-gradient-background-with-light-color-texture-nude-neutral-gradation-bg-white-and-brown-elegant-champagne-abstract-wallpaper-soft-warm-pastel-delicate-backdrop-vector.jpg" },
+        {id: 2, text: "Às vezes", score: 1, image: "" },
+        {id: 3, text: "Frequentemente", score: 2, image: "" },
+        {id: 4, text: "Sempre", score: 3, image: "" }
+      ]
+    },
+    {
+      id: 8,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "Com que frequência você se sente nervoso(a) ou ansioso(a) antes das apresentações?",
+      answers: [
+        {id: 1, text: "Nunca", score: 0, image:"https://static.vecteezy.com/system/resources/thumbnails/048/863/635/small_2x/wavy-beige-gradient-background-with-light-color-texture-nude-neutral-gradation-bg-white-and-brown-elegant-champagne-abstract-wallpaper-soft-warm-pastel-delicate-backdrop-vector.jpg" },
+        {id: 2, text: "Às vezes", score: 1, image: "" },
+        {id: 3, text: "Frequentemente", score: 2, image: "" },
+        {id: 4, text: "Sempre", score: 3, image: "" }
+      ]
+    },
+    {
+      id: 9,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "Você já se sentiu tão sobrecarregado(a) com as responsabilidades acadêmicas que teve dificuldades em dormir?",
+      answers: [
+        {id: 1, text: "Nunca", score: 0, image: "" },
+        {id: 2, text: "Às vezes", score: 1, image: "" },
+        {id: 3, text: "Frequentemente", score: 2, image: "" },
+        {id: 4, text: "Sempre", score: 3, image: "" }
+      ]
+    },
+    {
+      id: 10,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "Com que frequência você sente sintomas físicos de ansiedade, como aumento da frequência cardíaca, respiração acelerada ou tremores?",
+      answers: [
+        {id: 1, text: "Nunca", score: 0, image: "" },
+        {id: 2, text: "Às vezes", score: 1, image: "" },
+        {id: 3, text: "Frequentemente", score: 2, image: "" },
+        {id: 4, text: "Sempre", score: 3, image: "" }
+      ]
+    },
+    {
+      id: 11,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "Você tem dificuldades em se concentrar em tarefas acadêmicas devido a pensamentos ansiosos?",
+      answers: [
+        {id: 1, text: "Nunca", score: 0, image: "" },
+        {id: 2, text: "Às vezes", score: 1, image: "" },
+        {id: 3, text: "Frequentemente", score: 2, image: "" },
+        {id: 4, text: "Sempre", score: 3, image: "" }
+      ]
+    },
+    {
+      id: 12,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "As relações sociais na faculdade te afetam de modo a interferir na ansiedade?",
+      answers: [
+        {id: 1, text: "Nunca", score: 0, image: "" },
+        {id: 2, text: "Às vezes", score: 1, image: "" },
+        {id: 3, text: "Frequentemente", score: 2, image: "" },
+        {id: 4, text: "Sempre", score: 3, image: "" }
+      ]
+    },
+    {
+      id: 13,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "Você já procurou ajuda (psicológica ou de colegas) para lidar com a ansiedade acadêmica?",
+      answers: [
+        {id: 1, text: "Nunca", score: 0, image: "" },
+        {id: 2, text: "Às vezes", score: 1, image: "" },
+        {id: 3, text: "Frequentemente", score: 2, image: "" },
+        {id: 4, text: "Sempre", score: 3, image: "" }
+      ]
+    },
+    {
+      id: 14,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "Você utiliza técnicas de relaxamento ou meditação para reduzir a ansiedade relacionada aos estudos?",
+      answers: [
+        {id: 1, text: "Nunca", score: 0, image: "" },
+        {id: 2, text: "Às vezes", score: 1, image: "" },
+        {id: 3, text: "Frequentemente", score: 2, image: "" },
+        {id: 4, text: "Sempre", score: 3, image: "" }
+      ]
+    },
+    {
+      id: 15,
+      type: "multiple",
+      difficulty: "easy",
+      category: "Ansiedade",
+      question: "Durante as últimas semanas, você teve algum desafio na sua vida acadêmica como consequência de algum problema emocional?",
+      answers: [
+        {id: 1, text: "Nunca", score: 0, image: "" },
+        {id: 2, text: "Às vezes", score: 1, image: "" },
+        {id: 3, text: "Frequentemente", score: 2, image: "" },
+        {id: 4, text: "Sempre", score: 3, image: "" }
       ]
     }
     // Adicione mais perguntas aqui...
   ];
-
+  store.setQuestions(questions);
 
   let activeQuestion = 0;
   let showResults = false;
 
   let isAnswered = false;
-  
-  // Atualize a função nextQuestion para resetar o estado
-  function nextQuestion() {
-    isAnswered = false;
-    if (activeQuestion < questions.length - 1) {
-      activeQuestion = activeQuestion + 1;
-      store.next();
-    } else {
-      showResults = true;
-    }
-  }
+
 
   function resetQuiz() {
     showResults = false;
@@ -62,6 +169,42 @@
   }
 
   $: questionNumber = activeQuestion + 1;
+
+  function goToQuestion(index) {
+    if (canNavigateTo(index)) {
+      activeQuestion = index;
+      isAnswered = $store.questionAnswers && $store.questionAnswers[questions[index].id] ? true : false;
+    }
+  }
+ 
+  function canNavigateTo(index) {
+    // Permite sempre:
+    // 1. A questão atual
+    // 2. Qualquer questão que tenha uma resposta registrada
+    return index === activeQuestion || 
+          ($store.questionAnswers && $store.questionAnswers[questions[index].id] !== undefined);
+  }
+
+  function nextQuestion() {
+    // Vai para a próxima questão independente de estar respondida ou não
+    if (activeQuestion < questions.length - 1) {
+      activeQuestion++;
+      // Atualiza o estado isAnswered baseado no registro da resposta
+      isAnswered = $store.questionAnswers && 
+                 $store.questionAnswers[questions[activeQuestion].id] !== undefined;
+    } else {
+      showResults = true;
+    }
+  }
+
+  // Função para verificar se uma questão foi respondida
+  function isQuestionAnswered(index) {
+    return $store.questionAnswers && 
+           $store.questionAnswers[questions[index].id] !== undefined;
+  }
+
+
+  
 </script>
 
 
@@ -117,15 +260,33 @@
       <div class="progress-bar" style="width: {(activeQuestion / questions.length) * 100}%"></div>
       <div class="progress-steps">
         {#each Array(questions.length) as _, i}
-        <button 
-          class="progress-step {i === activeQuestion ? 'active' : ''} {i < activeQuestion ? 'completed' : ''}"
-          on:click={() => activeQuestion = i}
-          on:keydown={(e) => e.key === 'Enter' || e.key === ' ' ? activeQuestion = i : null}
-          role="tab"
-          aria-label={`Ir para pergunta ${i + 1}`}
-          tabindex="0"
-        ></button>
-      {/each}
+          <button 
+            class="progress-step 
+              {i === activeQuestion ? 'active' : ''} 
+              {isQuestionAnswered(i) ? 'completed' : ''}
+              {!canNavigateTo(i) ? 'locked' : ''}"
+            on:click={() => goToQuestion(i)}
+            disabled={!canNavigateTo(i)}
+          >
+            {#if !canNavigateTo(i)}
+              <!-- Ícone de cadeado -->
+              <svg 
+              width="12" 
+              height="12" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              stroke-width="2"
+            >
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            
+            {:else}
+              {i + 1}
+            {/if}
+          </button>
+        {/each}
       </div>
     </div>
     
@@ -142,26 +303,27 @@
   </footer>
 </div>
 <style>
-  /* Adicione esses estilos */
+   .progress-step.locked {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #f0f0f0;
+    color: #999;
+  }
+  
+  .progress-step.locked svg {
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .progress-step[disabled] {
+    pointer-events: none;
+  }
   .quiz-controls {
     display: flex;
     gap: 10px;
     align-items: center;
   }
-  
-  .next-btn {
-    background: #3E7BFF;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 20px;
-    border: none;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  
+   
   .next-btn:hover {
     background: #3E6BFF;
   }
@@ -341,6 +503,19 @@
     position: relative;
     transition: all 300ms;
     width: 100%;
+  }
+
+  .next-btn {
+    background: #3E7BFF;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
   }
 
   .quiz-footer {
