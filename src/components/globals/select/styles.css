@@ -1,0 +1,101 @@
+
+.select {
+    margin-bottom: 20px;
+    position: relative;
+    width: 100%;
+    border: none !important;
+    
+}
+
+.select > #label {
+    height: 60px;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+
+    color: var(--color-04);
+    font-size: 0.9em;
+    font-weight: 500 !important;
+    cursor: pointer;
+    font-family: var(--font);
+    
+    border-radius: var(--br-size);
+    background: var(--color-03);
+    border: 1px solid var(--br-color-01) !important;
+
+    display: flex;
+    align-items: center;
+}
+
+
+
+.select > #list {
+    overflow: hidden;
+    /* position: absolute; */
+    width: 100%;
+    border-radius: var(--br-size);
+    margin-top: 10px;
+    
+    border: 1px solid var(--br-color-01)  !important;
+    background: var(--color-03);
+
+    animation: AList 200ms;
+}
+
+@keyframes AList {
+    from { 
+        opacity: 0;
+        transform: translateY(-100px); 
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0px); 
+    }
+}
+
+
+
+.select > #list > button {
+    background: var(--color-03);
+    display: block;
+    padding: 0 20px;
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    height: 40px;
+    text-align: left;
+
+    border-bottom: 1px solid var(--br-color-01);
+    
+    transition: 300ms;
+}
+
+.select > #list > button:last-child {
+    border: none;
+}
+
+.select > #list > button:hover {
+    background: var(--color-06) !important;
+}
+
+.select > #list > button:nth-child(2n) {
+    background: var(--color-05);
+} 
+
+
+.select > #list > #other {
+    background: var(--color-03);
+    border-radius: var(--br-size);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+}
+
+.select > #list > #other > input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--br-color-01);
+    outline: none;
+    padding: 10px 0;
+    width: 100%;
+}

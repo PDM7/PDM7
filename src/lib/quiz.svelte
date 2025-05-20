@@ -338,7 +338,7 @@
 <style>
   :global(body) {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f9fa;
+    background-color: var(--bg-color-01);
     margin: 0;
     padding: 0;
     color: #333;
@@ -384,7 +384,7 @@
   }
 
   .progress-step.active {
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     border: 3px solid #3E7BFF;
     transform: scale(1.2);
   }
@@ -417,14 +417,13 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: white;
+    background-color: var(--bg-color-01);
   }
 
   .quiz-header {
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--br-color-01);
+    background: var(--bg-color-02);
     padding: 1.5rem 2rem;
-    background: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     position: sticky;
     top: 0;
     z-index: 10;
@@ -519,9 +518,10 @@
   }
 
   .quiz-footer {
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--br-color-01);
+    background: var(--bg-color-02);
+
     padding: 1.5rem 2rem;
-    background: white;
     display: flex;
     justify-content: space-between;
     align-items: center;

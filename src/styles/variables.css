@@ -1,0 +1,28 @@
+:root {
+    --bg-color-01: #ffffff;
+    --bg-color-02: #f1f1f1;
+
+    --br-color-01: rgb(0, 0, 0);
+    --br-size: 8px;
+
+    --color-01: linear-gradient(102.87deg, #3B3B3B 0.99%, #0A0A0A 100%);
+    --color-02: #fafafa;
+
+
+    --color-04: #000000;
+    
+    
+    --color-03: #fbfbfb;
+    --color-05: #e7e7e7;
+    --color-06: #d4d1cb;
+
+    --font: Inter;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--color-02);
+
+}

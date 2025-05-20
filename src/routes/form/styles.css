@@ -1,0 +1,161 @@
+.page {
+    align-items: center;
+    justify-content: center;
+    padding: 100px 20px;
+    box-sizing: border-box;
+}
+
+#page-form > .container {
+    max-width: 500px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#page-form > .container > h1 {
+    font-weight: 900;
+    text-align: center;
+    text-transform: uppercase;
+
+    color: var(--color-04);
+    font-size: 2.5em;
+    margin-bottom: 50px;
+}
+
+#page-form > .container > div {
+    width: 100%;
+}
+
+#page-form > .container > div > .grup {
+    animation: AGrup 1s;
+}
+
+@keyframes AGrup {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
+#page-form #next-button {
+    background: var(--color-01);
+    border-radius: var(--br-size);
+    color: var(--color-02);
+    width: 100%;
+    border: none;
+    font-weight: bold !important;
+    font-size: 1.2em;
+    text-align: center;
+    font-family: Inter;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+#next-button:hover {
+    transform: scale(1.01);
+}
+
+#page-form > .container > div > .grup input, button {
+    display: block;
+    height: 60px;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    color: var(--color-04);
+    font-size: 0.9em;
+    font-weight: 500 !important;
+    font-family: var(--font);
+}
+
+#page-form > .container > div > .grup input::placeholder {
+    color: var(--color-04);
+} 
+
+#page-form > .container > div > .grup input {
+    background: var(--color-02);
+    border-radius: var(--br-size);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--color-04);
+    transition: 200ms;
+}
+
+#page-form > .container > div > .grup input:disabled {
+    opacity: 0.5;
+}
+
+#page-form > .container > div > .grup > #cep {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 60px;
+    margin-bottom: 20px;
+}
+
+#page-form > .container > div > .grup > #cep input {
+    height: 100%;
+    margin: 0;
+}
+
+#page-form > .container > div > .grup > #cep button {
+    position: absolute;
+    height: 40px;
+    width: 40px;
+    border-radius: var(--br-size);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0; 
+    background: var(--color-01);
+    color: var(--color-02);
+    right: 10px;
+    cursor: pointer;
+}
+
+
+#page-form > .container > div > .grup > #cep button img {
+    width: 15px;
+    height: 15px;
+}
+
+
+
+
+
+#buttons {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+}
+
+.nextButton {
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.backButton {
+    color: var(--color-04) !important;
+    background: transparent !important;
+    border: 1px solid var(--color-04) !important;
+
+}
+
+
+
+.inputError {
+    border: 1px solid red !important;
+    border-radius: var(--br-size) !important;
+}
+
+.inputError::placeholder {
+    color: red !important;
+}
+
+.selectError > #label {
+    border: 1px solid red !important;
+    color: red !important;
+    
+}

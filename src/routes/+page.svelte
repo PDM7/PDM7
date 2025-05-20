@@ -17,7 +17,7 @@
       Entendendo o impacto da ansiedade na sua rotina acadêmica.<br>
 A participação é voluntária e todas as respostas serão tratadas com total sigilo e confidencialidade.
     </p>
-    <a href="{base}/quiz" class="btn" in:fade={{ delay: 600 }}>INICIAR</a>
+    <a href="/form" class="btn" in:fade={{ delay: 600 }}>INICIAR</a>
   </div>
   
   <div class="floating-shapes">

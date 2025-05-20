@@ -15,13 +15,19 @@
   async function sendEmail() {
     if (!email) return;
     
+    const urlParams = new URLSearchParams(window.location.search);
+
+    
+    
+    
     try {
-      const response = await store.submitToAPI('https://pdm7.onrender.com/mail.php', { email });
-      if (response) {
-        console.log("E-mail enviado com sucesso!", response);
-        alert("Cópia das respostas enviada para o e-mail com sucesso!");
-        showEmailInput = false;
-        email = '';
+        const response = await store.submitToAPI('https://pdm7.onrender.com/mail.php', { email });
+
+        if (response) {
+            console.log("E-mail enviado com sucesso!", response);
+            alert("Cópia das respostas enviada para o e-mail com sucesso!");
+            showEmailInput = false;
+            email = '';
       }
     } catch (error) {
       console.error("Erro ao enviar e-mail:", error);
@@ -32,11 +38,26 @@
   onMount(async () => {
     const response = await store.submitToAPI('https://pdm7.onrender.com/mail.php');
     console.log("Resposta do email:", response);
+
+    // melhorar
+    const querys = {
+        name: urlParams.get("name"),
+        age: urlParams.get("age"),
+        period: urlParams.get("period"),
+        institution: urlParams.get("institution"),
+        gender: urlParams.get("gender"),
+        graduation: urlParams.get("graduation"),
+        cep: urlParams.get("cep"),
+        state: urlParams.get("state"),
+        city: urlParams.get("city")
+    }
    
-    const bd = await store.submitToAPI('https://pdm7.onrender.com/repository.php?salvar', {qid: 1, classe: 'Ciências da Computação - 1º Período', salvar: 'Master'});
-    console.log("Resposta do banco de dados:", bd);
-    
-  
+    const bd = await store.submitToAPI('https://pdm7.onrender.com/repository.php?salvar', {
+        qid: 1, 
+        classe: 'Ciências da Computação - 1º Período', 
+        salvar: 'Master',
+        ...querys
+    });
   });
 </script>
 

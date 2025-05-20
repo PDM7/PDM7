@@ -234,9 +234,15 @@ class Database
             $release = $data['salvar'] ?? 'Master';
             $resume  = $data['pontuacoes']['Ansiedade'] ?? 'N/A';
 
+            $name = $data['name'] ?? "Sem nome"
+            $cep = $data['cep'] ?? "-"
+            $state = $data['state'] ?? "-"
+            $city = $data['city'] ?? "-"
+
             $payload = json_encode($data);
+                
             $sql = "
-                INSERT INTO public.analise (qid, classe, response, assign, payload, release, resume)
+                INSERT INTO public.analise (qid, classe, response, assign, payload, release, resume, name, age, period, institution, gender, graduation, cep, state, city)
                 VALUES (
                     '$qid',
                     '$classe',
@@ -244,7 +250,16 @@ class Database
                     '$assign',
                     '$payload',
                     '$release',
-                    '$resume'
+                    '$resume', 
+                    '$name',
+                    '$age',
+                    '$period',
+                    '$institution',
+                    '$gender',
+                    '$graduation',
+                    '$cep',
+                    '$state',
+                    '$city'
                 );
             ";
 
