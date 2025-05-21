@@ -34,7 +34,6 @@
 
   onMount(async () => {
     const response = await store.submitToAPI('https://pdm7.onrender.com/mail.php');
-    console.log("Resposta do email:", response);
 
     const urlParams = new URLSearchParams(window.location.search);
 

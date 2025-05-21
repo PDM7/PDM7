@@ -176,7 +176,7 @@ function createStore() {
         ...extra,
       }
      
-      console.log(payload);
+      
       try {
         const response = await fetch(endpoint, {
           method: 'POST',
