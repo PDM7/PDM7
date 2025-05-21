@@ -1,6 +1,8 @@
 // futuramente podemos fazer uma api para esses dados
 
 export const periodoList = [
+    { value: "Ensino Fundamental", label: "Ensino Fundamental"},
+    { value: "Ensino Médio", label: "Ensino Médio" },
     { value: "1º Período", label: "1º Período" },
     { value: "2º Período", label: "2º Período" },
     { value: "3º Período", label: "3º Período" },

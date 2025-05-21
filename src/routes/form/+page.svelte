@@ -129,7 +129,7 @@
             {#if stage == 1}
                 <div class="grup">
                     <Select 
-                        label="Qual graduação você está cursando?"
+                        label="Qual curso você está fazendo?"
                         onSelect={(e) => {
                             dataForm.graduation = e;
                             document.querySelector("#graduation").classList.remove("selectError");
@@ -142,7 +142,7 @@
                     />
 
                     <Select 
-                        label="Em qual período da faculdade você se encontra?"
+                        label="Qual período ou ano?"
                         onSelect={(e) => {
                             dataForm.period = e;
                             document.querySelector("#period").classList.remove("selectError");
