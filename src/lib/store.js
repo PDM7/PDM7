@@ -12,7 +12,9 @@ const defaultData = {
 }
 
 function createStore() {
-    const { subscribe, set, update } = persistStore('data', writable(defaultData));
+    const dataStore = persistStore('data', writable(defaultData));
+    const { subscribe, set, update } = dataStore;
+
 
     return {
         subscribe,
@@ -174,6 +176,7 @@ function createStore() {
         ...extra,
       }
      
+      console.log(payload);
       try {
         const response = await fetch(endpoint, {
           method: 'POST',
