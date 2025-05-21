@@ -218,7 +218,6 @@ class Database
     }
 
     public function inserirAnalise($data) {
-        //prepared statements
     if (!$data || !isset($data['respostas']) || !isset($data['pontuacoes'])) {
         return ['error' => 'Dados inválidos para inserção'];
     }
