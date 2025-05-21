@@ -218,62 +218,64 @@ class Database
     }
 
     public function inserirAnalise($data) {
-        if (!$data || !isset($data['respostas']) || !isset($data['pontuacoes'])) {
-            return ['error' => 'Dados inválidos para inserção'];
-        }
-
-        try {
-            $qid     = $data['qid'] ?? 1;
-            $classe  = $data['classe'] ?? 'Ciências da Computação - 1º Período';
-            $response = implode(', ', array_map(fn($r) => $r['score'], $data['respostas']));
-
-            $assign  = $data['assign'] ?? time();
-            $release = $data['salvar'] ?? 'Master';
-            $resume  = $data['pontuacoes']['Ansiedade'] ?? 'N/A';
-
-            $name = $data['name'] ?? "Sem nome";
-            $age = $data['age'] ?? '';
-            $period = $data['period'] ?? '';
-            $institution = $data['institution'] ?? '';
-            $gender = $data['gender'] ??'';
-            $graduation = $data['graduation'] ??'';
-            $cep = $data['cep'] ?? "-";
-            $state = $data['state'] ?? "-";
-            $city = $data['city'] ?? "-";
-
-            $payload = json_encode($data);
-                
-            $sql = "
-                INSERT INTO public.analise (qid, classe, response, assign, payload, release, resume, pseudonimo, idade, periodo, instituicao, 
-                genero, curso, cep, estado, localidade)
-                VALUES (
-                    '$qid',
-                    '$classe',
-                    '$response',
-                    '$assign',
-                    '$payload',
-                    '$release',
-                    '$resume', 
-                    '$name',
-                    '$age',
-                    '$period',
-                    '$institution',
-                    '$gender',
-                    '$graduation',
-                    '$cep',
-                    '$state',
-                    '$city'
-                );
-            ";
-
-            $this->con->exec($sql);
-            $id = $this->con->lastInsertId();
-
-            return ['success' => true, 'id' => $id];
-        } catch (PDOException $e) {
-            return ['error' => 'Erro ao inserir: ' . $e->getMessage()];
-        }
+    if (!$data || !isset($data['respostas']) || !isset($data['pontuacoes'])) {
+        return ['error' => 'Dados inválidos para inserção'];
     }
+
+    try {
+        $qid = $data['qid'] ?? 1;
+        $classe = $data['classe'] ?? 'Ciências da Computação - 1º Período';
+        $response = implode(', ', array_map(fn($r) => $r['score'], $data['respostas']));
+
+        $assign = $data['assign'] ?? time();
+        $release = $data['salvar'] ?? 'Master';
+        $resume = $data['pontuacoes']['Ansiedade'] ?? 'N/A';
+
+        $name = $data['name'] ?? "Sem nome";
+        $age = $data['age'] ?? '';
+        $period = $data['period'] ?? '';
+        $institution = $data['institution'] ?? '';
+        $gender = $data['gender'] ?? '';
+        $graduation = $data['graduation'] ?? '';
+        $cep = $data['cep'] ?? "-";
+        $state = $data['state'] ?? "-";
+        $city = $data['city'] ?? "-";
+
+        $payload = json_encode($data);
+
+        $sql = "INSERT INTO public.analise 
+            (qid, classe, response, assign, payload, release, resume, pseudonimo, idade, periodo, instituicao, genero, curso, cep, estado, localidade)
+            VALUES 
+            (:qid, :classe, :response, :assign, :payload, :release, :resume, :name, :age, :period, :institution, :gender, :graduation, :cep, :state, :city)";
+
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute([
+            ':qid' => $qid,
+            ':classe' => $classe,
+            ':response' => $response,
+            ':assign' => $assign,
+            ':payload' => $payload,
+            ':release' => $release,
+            ':resume' => $resume,
+            ':name' => $name,
+            ':age' => $age,
+            ':period' => $period,
+            ':institution' => $institution,
+            ':gender' => $gender,
+            ':graduation' => $graduation,
+            ':cep' => $cep,
+            ':state' => $state,
+            ':city' => $city,
+        ]);
+
+        $id = $this->con->lastInsertId();
+
+        return ['success' => true, 'id' => $id];
+    } catch (PDOException $e) {
+        return ['error' => 'Erro ao inserir: ' . $e->getMessage()];
+    }
+}
+
 
     public function getPerguntasERespostas($questionarioId) {
         $result = [];
@@ -317,14 +319,20 @@ $formatter = new IntlDateFormatter(
 );
 date_default_timezone_set('America/Sao_Paulo');
 
-if(isset($_REQUEST['salvar'])){
-   $data = json_decode(file_get_contents('php://input'), true); 
+if (isset($_REQUEST['salvar'])) {
+    $raw = file_get_contents('php://input');
+    $data = json_decode($raw, true);
 
-$resultado = $db->inserirAnalise($data);
+    if ($data === null) {
+        echo json_encode(['status' => 'erro', 'mensagem' => 'JSON inválido', 'raw' => $raw]);
+        exit;
+    }
 
-if (isset($resultado['success'])) {
-    echo json_encode(['status' => 'ok', 'id' => $resultado['id']]);
-} else {
-    echo json_encode(['status' => 'erro', 'mensagem' => $resultado['error']]);
-} 
+    $resultado = $db->inserirAnalise($data);
+
+    if (isset($resultado['success'])) {
+        echo json_encode(['status' => 'ok', 'id' => $resultado['id']]);
+    } else {
+        echo json_encode(['status' => 'erro', 'mensagem' => $resultado['error']]);
+    }
 }
