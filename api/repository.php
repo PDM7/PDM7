@@ -78,9 +78,6 @@ class Database
         }
     }
     
-
-    
-
     public function inserir($table_name, $values) {
         // Verifica se já existe uma transação ativa
         $transacaoExistente = $this->con->inTransaction();
@@ -242,7 +239,8 @@ class Database
             $payload = json_encode($data);
                 
             $sql = "
-                INSERT INTO public.analise (qid, classe, response, assign, payload, release, resume, name, age, period, institution, gender, graduation, cep, state, city)
+                INSERT INTO public.analise (qid, classe, response, assign, payload, release, resume, pseudonimo, idade, periodo, instituicao, 
+                genero, curso, cep, estado, localidade)
                 VALUES (
                     '$qid',
                     '$classe',

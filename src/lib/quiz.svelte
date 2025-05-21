@@ -398,7 +398,7 @@
 
   .progress-text {
     color: #777;
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     font-weight: 500;
   }
 

@@ -112,12 +112,12 @@
                     >
 
                     <Select 
-                        label="Gêneros"
+                        label="Gênero"
                         onSelect={e => {
                             dataForm.gender = e;
-                            document.querySelector("#period").classList.remove("selectError");
+                            document.querySelector("#gender").classList.remove("selectError");
                         }} 
-                        id="period"
+                        id="gender"
                         typeInput="text"
                         input={true}
                         options={generoList} 
@@ -158,12 +158,12 @@
                         label="Instituição"
                         onSelect={(e) => {
                             dataForm.institution = e;
-                            document.querySelector("#period").classList.remove("selectError");
+                            document.querySelector("#institution").classList.remove("selectError");
                         }} 
                         typeInput="text"
                         input={true}
                         options={instituicaoList} 
-                        select={dataForm.period} 
+                        select={dataForm.institution} 
                         id="institution"
                     />
                 </div>
