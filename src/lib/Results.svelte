@@ -15,13 +15,16 @@
   async function sendEmail() {
     if (!email) return;
     
+    const urlParams = new URLSearchParams(window.location.search);
+
     try {
-      const response = await store.submitToAPI('https://pdm7.onrender.com/mail.php', { email });
-      if (response) {
-        console.log("E-mail enviado com sucesso!", response);
-        alert("Cópia das respostas enviada para o e-mail com sucesso!");
-        showEmailInput = false;
-        email = '';
+        const response = await store.submitToAPI('https://pdm7.onrender.com/mail.php', { email });
+
+        if (response) {
+            console.log("E-mail enviado com sucesso!", response);
+            alert("Cópia das respostas enviada para o e-mail com sucesso!");
+            showEmailInput = false;
+            email = '';
       }
     } catch (error) {
       console.error("Erro ao enviar e-mail:", error);
@@ -32,11 +35,28 @@
   onMount(async () => {
     const response = await store.submitToAPI('https://pdm7.onrender.com/mail.php');
     console.log("Resposta do email:", response);
+
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // melhorar
+    const querys = {
+        name: urlParams.get("name"),
+        age: urlParams.get("age"),
+        period: urlParams.get("period"),
+        institution: urlParams.get("institution"),
+        gender: urlParams.get("gender"),
+        graduation: urlParams.get("graduation"),
+        cep: urlParams.get("cep"),
+        state: urlParams.get("state"),
+        city: urlParams.get("city")
+    }
    
-    const bd = await store.submitToAPI('https://pdm7.onrender.com/repository.php?salvar', {qid: 1, classe: 'Ciências da Computação - 1º Período', salvar: 'Master'});
-    console.log("Resposta do banco de dados:", bd);
-    
-  
+    const bd = await store.submitToAPI('https://pdm7.onrender.com/repository.php?salvar', {
+        qid: 1, 
+        classe: 'Ciências da Computação - 1º Período', 
+        salvar: 'Master',
+        ...querys
+    });
   });
 </script>
 
@@ -53,12 +73,12 @@
   <h2>Envio finalizado! 🎉</h2>
   
   <div class="result-container">
-      {#if scoreAnsiedade <= 12}
+      {#if scoreAnsiedade <= 13}
           <div class="result-message result-good">
               <h3 class="result-main-title">Ansiedade Leve</h3>
               <p>A ansiedade leve é uma sensação natural de nervosismo ou preocupação que acontece em situações como provas, entrevistas ou mudanças importantes na vida. Ela pode causar um pouco de inquietação ou preocupação, mas não atrapalha as atividades diárias, inclusive é saudável e ajuda nos processos psíquicos.</p>
           </div>
-      {:else if scoreAnsiedade <= 25}
+      {:else if scoreAnsiedade <= 26}
           <div class="result-message result-warning">
               <h3 class="result-main-title">Sinais de Alerta para Ansiedade</h3>
               <p>Quando a ansiedade dura muito tempo ou começa a afetar suas atividades diárias é um sinal de que algo mais sério pode estar acontecendo. Sintomas como dificuldade para dormir, preocupação constante, tensão no corpo, alterações no apetite ou libido, baixa concentração ou medo excessivo são sinais de alerta.</p>
@@ -91,7 +111,7 @@
               <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
               <polyline points="22,6 12,13 2,6"></polyline>
           </svg>
-          Enviar cópia das respostas para o e-mail
+          Enviar por e-mail
       </button>
   </div>
   
