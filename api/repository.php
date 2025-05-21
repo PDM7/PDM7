@@ -231,10 +231,15 @@ class Database
             $release = $data['salvar'] ?? 'Master';
             $resume  = $data['pontuacoes']['Ansiedade'] ?? 'N/A';
 
-            $name = $data['name'] ?? "Sem nome"
-            $cep = $data['cep'] ?? "-"
-            $state = $data['state'] ?? "-"
-            $city = $data['city'] ?? "-"
+            $name = $data['name'] ?? "Sem nome";
+            $age = $data['age'] ?? '';
+            $period = $data['period'] ?? '';
+            $institution = $data['institution'] ?? '';
+            $gender = $data['gender'] ??'';
+            $graduation = $data['graduation'] ??'';
+            $cep = $data['cep'] ?? "-";
+            $state = $data['state'] ?? "-";
+            $city = $data['city'] ?? "-";
 
             $payload = json_encode($data);
                 

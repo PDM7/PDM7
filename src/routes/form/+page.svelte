@@ -1,6 +1,7 @@
 
 
 <script >
+    import { base } from "$app/paths";
     import Select from "../../components/globals/select/index.svelte"
     import { getCurso } from "../ultils/cursos.ultils"
     
@@ -31,7 +32,7 @@
 
         const query = new URLSearchParams(dataForm).toString();
 
-        window.location.href = `/quiz?${query}`;
+        window.location.href = `${base}/quiz?${query}`;
     }
 
 
