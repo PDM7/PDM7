@@ -144,7 +144,7 @@
       type: "multiple",
       difficulty: "easy",
       category: "Ansiedade",
-      question: "Durante as últimas semanas, você teve algum desafio na sua vida acadêmica como consequência de algum problema emocional?",
+      question: "Você teve algum desafio na sua vida acadêmica como consequência de algum problema emocional?",
       answers: [
         {id: 1, text: "Nunca", score: 0, image: "" },
         {id: 2, text: "Às vezes", score: 1, image: "" },
