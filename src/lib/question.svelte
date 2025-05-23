@@ -1,6 +1,7 @@
 <script>
   import { store } from './store.js'
   import { onMount } from 'svelte'
+  import {base} from "$app/paths"
 
   export let question;
   export let nextQuestion;
@@ -105,11 +106,11 @@
       >
         <div class="icon-container">
           <img 
-          src={answer.image || '${base}/images/1.png'}
+          src={answer.image || "{base}/images/1.png"}
           alt={answer.text} 
           class="answer-image" 
           on:error={(e) => {
-            e.target.src = '${base}/images/1.png';
+            e.target.src = "{base}/images/1.png";
             applyDefaultStyle(index, e.target.closest('.answer-card'));
           }}
         />
