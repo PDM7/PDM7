@@ -83,7 +83,10 @@
     }
 
 </script>
+<div class="neutral">
 
+    <span class="version offset">vs 358d7e</span>
+</div>
 <main id="page-form" class="page">
     
     <div class="container">

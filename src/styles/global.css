@@ -21,3 +21,16 @@ body {
   margin-bottom: 0px;
 }  
 
+.version{
+  font-size: smaller;
+  font-weight: 200;
+  color: rgb(156, 153, 159);
+}
+
+.offset {
+  margin-left: 30px;
+}
+
+.neutral {
+  background-color: var(--color-02)!important;
+}

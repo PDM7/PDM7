@@ -105,11 +105,11 @@
       >
         <div class="icon-container">
           <img 
-          src={answer.image || 'https://static.vecteezy.com/system/resources/thumbnails/048/863/635/small_2x/wavy-beige-gradient-background-with-light-color-texture-nude-neutral-gradation-bg-white-and-brown-elegant-champagne-abstract-wallpaper-soft-warm-pastel-delicate-backdrop-vector.jpg'}
+          src={answer.image || 'static/images/1.png'}
           alt={answer.text} 
           class="answer-image" 
           on:error={(e) => {
-            e.target.src = 'https://static.vecteezy.com/system/resources/thumbnails/048/863/635/small_2x/wavy-beige-gradient-background-with-light-color-texture-nude-neutral-gradation-bg-white-and-brown-elegant-champagne-abstract-wallpaper-soft-warm-pastel-delicate-backdrop-vector.jpg';
+            e.target.src = 'static/images/1.png';
             applyDefaultStyle(index, e.target.closest('.answer-card'));
           }}
         />

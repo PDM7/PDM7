@@ -143,8 +143,6 @@
 
 }
 
-
-
 .inputError {
     border: 1px solid red !important;
     border-radius: var(--br-size) !important;
