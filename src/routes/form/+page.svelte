@@ -196,7 +196,7 @@
                                 onclick={() => getLocation()}
                             >
                                 {#if !loadLocation}
-                                    <img src="/svg/location.svg" alt="" srcset="">
+                                    <img src="{base}/svg/location.svg" alt="" srcset="">
                                 {/if}
 
                                 {#if loadLocation}
