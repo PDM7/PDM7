@@ -44,7 +44,18 @@
 
   onMount(async () => {
     try {
-        const querys = $store.querys || {}; 
+        const urlParams = new URLSearchParams(window.location.search);
+        const querys = {
+        name: urlParams.get("name"),
+        age: urlParams.get("age"),
+        period: urlParams.get("period"),
+        institution: urlParams.get("institution"),
+        gender: urlParams.get("gender"),
+        graduation: urlParams.get("graduation"),
+        cep: urlParams.get("cep"),
+        state: urlParams.get("state"),
+        city: urlParams.get("city")
+    }
         const answersData = $store.questionAnswers || {}; 
         const finalScore = score;
         const quizCategory = category;
