@@ -175,8 +175,7 @@ function createStore() {
         pontuacoes: $store.scoresByCategory,
         ...extra,
       }
-     
-      
+
       try {
         const response = await fetch(endpoint, {
           method: 'POST',

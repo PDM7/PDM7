@@ -2,39 +2,36 @@
 
 <script >
     import { base } from "$app/paths";
-    import Select from "../../components/globals/select/index.svelte"
-    import { getCurso } from "../ultils/cursos.ultils"
+    import Select from "../../../components/globals/select/index.svelte"
+    import { getCurso } from "../../ultils/cursos.ultils"
     
     import { generoList,instituicaoList, periodoList } from "./data";
     import axios from "axios";
 
-
+    const props = $props();
 
     let stage = $state(0);
 
-        let dataForm = $state({
-            name: null,
-            age: null,
-            period: null,
-            institution: null,
-            gender: null,
-            graduation: null,
-            cep: null,
-            state: null,
-            city: null
-        });
+    let dataForm = $state({
+        name: null,
+        age: null,
+        period: null,
+        institution: null,
+        gender: null,
+        graduation: null,
+        cep: null,
+        state: null,
+        city: null
+    });
 
     let graduacaoList = $state();
     (async () => graduacaoList = await getCurso() )()
 
     async function sendForm() {
-        console.log(dataForm);
-
         const query = new URLSearchParams(dataForm).toString();
 
-        window.location.href = `${base}/quiz?${query}`;
+        window.location.href = `${base}/quiz/${props.data.id}?${query}`;
     }
-
 
     let loadLocation = $state(false);
     function getLocation() {
@@ -85,7 +82,7 @@
 </script>
 <div class="neutral">
 
-    <span class="version offset">vs 358d7e</span>
+    <span class="version offset">vs a19f3c</span>
 </div>
 <main id="page-form" class="page">
     

@@ -1,171 +1,34 @@
 <script>
   import { base } from "$app/paths";
-  import Question from '$lib/question.svelte'
-  import { fade, fly } from 'svelte/transition'
-  import { store } from './store.js'
+  import Question from '$lib/question.svelte';
+  import { fade, fly } from 'svelte/transition';
+  import { store } from './store.js'; 
   import Results from './Results.svelte';
-  $: scoreAnsiedade = $store.scoresByCategory && $store.scoresByCategory["Ansiedade"] || 0;
-  // $: console.log(store.categoriesArray);
- 
+  import { derived } from 'svelte/store';
 
-  const questions = [
-    {
-      id: 5,
-      type: "multiple",
-      difficulty: "easy",
-      category: "Ansiedade",
-      question: "Como você define a sua saúde mental atualmente?",
-      answers: [
-        {id: 1, text: "Excelente", score: 0, image:`${base}/images/1.png`},
-        {id: 2, text: "Boa", score: 1, image:`${base}/images/2.png` },
-        {id: 3, text: "Ruim", score: 2, image:`${base}/images/3.png`},
-        {id: 4, text: "Muito Ruim", score: 3, image:`${base}/images/4.png` }
-      ]
-    },
-    {
-      id: 6,
-      type: "multiple",
-      difficulty: "easy",
-      category: "Ansiedade",
-      question: "Como estava sua saúde mental ao ingressar na graduação?",
-      answers: [
-        {id: 1, text: "Excelente", score: 0, image:`${base}/images/1.png` },
-        {id: 2, text: "Boa", score: 1, image: `${base}/images/1.png` },
-        {id: 3, text: "Ruim", score: 2, image: `${base}/images/1.png` },
-        {id: 4, text: "Muito Ruim", score: 3, image: `${base}/images/1.png` }
-      ]
-    },
-    {
-      id: 7,
-      type: "multiple",
-      difficulty: "easy",
-      category: "Ansiedade",
-      question: "Com que frequência você se sente nervoso(a) ou ansioso(a) antes das provas?",
-      answers: [
-        {id: 1, text: "Nunca", score: 0, image:`${base}/images/1.png` },
-        {id: 2, text: "Às vezes", score: 1, image: `${base}/images/1.png` },
-        {id: 3, text: "Frequentemente", score: 2, image: `${base}/images/1.png` },
-        {id: 4, text: "Sempre", score: 3, image: `${base}/images/1.png` }
-      ]
-    },
-    {
-      id: 8,
-      type: "multiple",
-      difficulty: "easy",
-      category: "Ansiedade",
-      question: "Com que frequência você se sente nervoso(a) ou ansioso(a) antes das apresentações?",
-      answers: [
-        {id: 1, text: "Nunca", score: 0, image:`${base}/images/1.png` },
-        {id: 2, text: "Às vezes", score: 1, image: `${base}/images/1.png` },
-        {id: 3, text: "Frequentemente", score: 2, image: `${base}/images/1.png` },
-        {id: 4, text: "Sempre", score: 3, image: `${base}/images/1.png` }
-      ]
-    },
-    {
-      id: 9,
-      type: "multiple",
-      difficulty: "easy",
-      category: "Ansiedade",
-      question: "Você já se sentiu tão sobrecarregado(a) com as responsabilidades acadêmicas que teve dificuldades em dormir?",
-      answers: [
-        {id: 1, text: "Nunca", score: 0, image: `${base}/images/1.png` },
-        {id: 2, text: "Às vezes", score: 1, image: `${base}/images/1.png` },
-        {id: 3, text: "Frequentemente", score: 2, image: `${base}/images/1.png` },
-        {id: 4, text: "Sempre", score: 3, image: `${base}/images/1.png` }
-      ]
-    },
-    {
-      id: 10,
-      type: "multiple",
-      difficulty: "easy",
-      category: "Ansiedade",
-      question: "Com que frequência você sente sintomas físicos de ansiedade, como aumento da frequência cardíaca, respiração acelerada ou tremores?",
-      answers: [
-        {id: 1, text: "Nunca", score: 0, image: `${base}/images/1.png` },
-        {id: 2, text: "Às vezes", score: 1, image: `${base}/images/1.png` },
-        {id: 3, text: "Frequentemente", score: 2, image: `${base}/images/1.png` },
-        {id: 4, text: "Sempre", score: 3, image: `${base}/images/1.png` }
-      ]
-    },
-    {
-      id: 11,
-      type: "multiple",
-      difficulty: "easy",
-      category: "Ansiedade",
-      question: "Você tem dificuldades em se concentrar em tarefas acadêmicas devido a pensamentos ansiosos?",
-      answers: [
-        {id: 1, text: "Nunca", score: 0, image: `${base}/images/1.png` },
-        {id: 2, text: "Às vezes", score: 1, image: `${base}/images/1.png` },
-        {id: 3, text: "Frequentemente", score: 2, image: `${base}/images/1.png` },
-        {id: 4, text: "Sempre", score: 3, image: `${base}/images/1.png` }
-      ]
-    },
-    {
-      id: 12,
-      type: "multiple",
-      difficulty: "easy",
-      category: "Ansiedade",
-      question: "As relações sociais na faculdade te afetam de modo a interferir na ansiedade?",
-      answers: [
-        {id: 1, text: "Nunca", score: 0, image: `${base}/images/1.png` },
-        {id: 2, text: "Às vezes", score: 1, image: `${base}/images/1.png` },
-        {id: 3, text: "Frequentemente", score: 2, image: `${base}/images/1.png` },
-        {id: 4, text: "Sempre", score: 3, image: `${base}/images/1.png` }
-      ]
-    },
-    {
-      id: 13,
-      type: "multiple",
-      difficulty: "easy",
-      category: "Ansiedade",
-      question: "Você já procurou ajuda psicológica para lidar com a ansiedade acadêmica?",
-      answers: [
-        {id: 1, text: "Nunca", score: 0, image: `${base}/images/1.png` },
-        {id: 2, text: "Às vezes", score: 1, image: `${base}/images/1.png` },
-        {id: 3, text: "Frequentemente", score: 2, image: `${base}/images/1.png` },
-        {id: 4, text: "Sempre", score: 3, image: `${base}/images/1.png` }
-      ]
-    },
-    {
-      id: 14,
-      type: "multiple",
-      difficulty: "easy",
-      category: "Ansiedade",
-      question: "Você utiliza técnicas de relaxamento ou meditação para reduzir a ansiedade relacionada aos estudos?",
-      answers: [
-        {id: 1, text: "Nunca", score: 0, image: `${base}/images/1.png` },
-        {id: 2, text: "Às vezes", score: 1, image: `${base}/images/1.png` },
-        {id: 3, text: "Frequentemente", score: 2, image: `${base}/images/1.png` },
-        {id: 4, text: "Sempre", score: 3, image: `${base}/images/1.png` }
-      ]
-    },
-    {
-      id: 15,
-      type: "multiple",
-      difficulty: "easy",
-      category: "Ansiedade",
-      question: "Você teve algum desafio na sua vida acadêmica como consequência de algum problema emocional?",
-      answers: [
-        {id: 1, text: "Nunca", score: 0, image: `${base}/images/1.png` },
-        {id: 2, text: "Às vezes", score: 1, image: `${base}/images/1.png` },
-        {id: 3, text: "Frequentemente", score: 2, image: `${base}/images/1.png` },
-        {id: 4, text: "Sempre", score: 3, image: `${base}/images/1.png` }
-      ]
-    }
-    // Adicione mais perguntas aqui...
-  ];
+  export let questions;
+  export let quizId;
+
   store.setQuestions(questions);
-
   let activeQuestion = 0;
   let showResults = false;
-
   let isAnswered = false;
 
+  const category = questions[0]?.category || 'Desconhecida';
+
+  const totalScore = derived(store, ($store) => {
+    if (!$store.questionAnswers) return 0;
+    return Object.values($store.questionAnswers).reduce((sum, answer) => sum + (answer?.score || 0), 0);
+  });
+
+  $: scoreByCategory = $store.scoresByCategory ? ($store.scoresByCategory[category] || 0) : 0;
+  $: scoreForResults = category === 'Autoestima' ? $totalScore : scoreByCategory;
 
   function resetQuiz() {
     showResults = false;
-    store.reset();
+    store.reset(); 
     activeQuestion = 0;
+    isAnswered = false; 
   }
 
   $: questionNumber = activeQuestion + 1;
@@ -173,168 +36,129 @@
   function goToQuestion(index) {
     if (canNavigateTo(index)) {
       activeQuestion = index;
-      isAnswered = $store.questionAnswers && $store.questionAnswers[questions[index].id] ? true : false;
+      isAnswered = $store.questionAnswers && $store.questionAnswers[questions[index]?.id] !== undefined;
     }
   }
  
   function canNavigateTo(index) {
-    // Permite sempre:
-    // 1. A questão atual
-    // 2. Qualquer questão que tenha uma resposta registrada
     return index === activeQuestion || 
-          ($store.questionAnswers && $store.questionAnswers[questions[index].id] !== undefined);
+          ($store.questionAnswers && $store.questionAnswers[questions[index]?.id] !== undefined);
   }
 
   function nextQuestion() {
-    // Vai para a próxima questão independente de estar respondida ou não
     if (activeQuestion < questions.length - 1) {
       activeQuestion++;
-      // Atualiza o estado isAnswered baseado no registro da resposta
       isAnswered = $store.questionAnswers && 
-                 $store.questionAnswers[questions[activeQuestion].id] !== undefined;
+                 $store.questionAnswers[questions[activeQuestion]?.id] !== undefined;
     } else {
       showResults = true;
     }
   }
 
-  // Função para verificar se uma questão foi respondida
   function isQuestionAnswered(index) {
     return $store.questionAnswers && 
-           $store.questionAnswers[questions[index].id] !== undefined;
+           $store.questionAnswers[questions[index]?.id] !== undefined;
   }
 
-
+  function handleAnswerSelected() {
+    isAnswered = true;
+    // Optional: Automatically advance after selection
+    // setTimeout(nextQuestion, 300);
+  }
   
 </script>
 
-
-{#if showResults}
-<div in:fade>
-  <Results {scoreAnsiedade} {resetQuiz} />
-</div>
+{#if showResults} 
+  <div in:fade>
+    <Results {category} score={scoreForResults} {resetQuiz} {quizId} /> 
+  </div>
 {:else}
-<div class="quiz-container">
-  <header class="quiz-header">
-    <div class="header-content">
-      <span class="version">vs 358d7e</span>
-      <h1 class="quiz-title">Pergunta <span class="question-number">#{questionNumber}</span></h1>
-      <div class="quiz-controls">
-        <button class="reset-btn" on:click={resetQuiz}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-            <path d="M3 3v5h5"></path>
-          </svg>
-          Reiniciar
-        </button>
-        
-        {#if isAnswered}
-          <button class="next-btn" on:click={nextQuestion}>
-            {activeQuestion < questions.length - 1 ? 'Próxima' : 'Finalizar'}
+  <div class="quiz-container">
+    <header class="quiz-header">
+      <div class="header-content">
+        <span class="version">vs a19f3c</span>
+        <h1 class="quiz-title">Pergunta <span class="question-number">#{questionNumber}</span></h1>
+        <div class="quiz-controls">
+          <button class="reset-btn" on:click={resetQuiz} aria-label="Reiniciar Quiz">
+            <!-- SVG icon -->
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+              <path d="M3 3v5h5"></path>
             </svg>
+            Reiniciar
           </button>
-        {/if}
-      </div>
-    </div>
-  </header>
-
-  <main class="quiz-content">
-    {#each questions as question, index}
-      {#if index === activeQuestion}
-        <div out:fade in:fly={{ y: 200, duration: 1000 }} class="fade-wrapper">
-          <Question 
-            {question} 
-            bind:isAnswered
-            onAnswerSelected={() => isAnswered = true}
-            {nextQuestion} 
-          />  
+          
+          {#if isAnswered}
+            <button class="next-btn" on:click={nextQuestion} aria-label={activeQuestion < questions.length - 1 ? 'Próxima Pergunta' :'Finalizar Quiz'}>
+              {activeQuestion < questions.length - 1 ? 'Próxima' : 'Finalizar'}
+               <!-- SVG icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
+          {/if}
         </div>
-      {/if}
-    {/each}
-  </main>
-
-
-  <footer class="quiz-footer">
-    <!-- Barra de progresso -->
-    <div class="progress-container">
-      <div class="progress-bar" style="width: {(activeQuestion / questions.length) * 100}%"></div>
-      <div class="progress-steps">
-        {#each Array(questions.length) as _, i}
-          <button 
-            class="progress-step 
-              {i === activeQuestion ? 'active' : ''} 
-              {isQuestionAnswered(i) ? 'completed' : ''}
-              {!canNavigateTo(i) ? 'locked' : ''}"
-            on:click={() => goToQuestion(i)}
-            disabled={!canNavigateTo(i)}
-          >
-            {#if !canNavigateTo(i)}
-              <!-- Ícone de cadeado -->
-              <svg 
-              width="12" 
-              height="12" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="currentColor" 
-              stroke-width="2"
-            >
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-            </svg>
-            
-            {:else}
-              {i + 1}
-            {/if}
-          </button>
-        {/each}
       </div>
-    </div>
-    
-    <div class="footer-actions">
-      <a href="{base}/" class="home-link" on:click={resetQuiz}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-          <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
-        Voltar ao Início
-      </a>
-      <div class="progress-text">Pergunta {questionNumber} de {questions.length}</div>
-    </div>
-  </footer>
-</div>
-<style>
-   .progress-step.locked {
-    opacity: 0.6;
-    cursor: not-allowed;
-    background-color: #f0f0f0;
-    color: #999;
-  }
-  
-  .progress-step.locked svg {
-    display: block;
-    margin: 0 auto;
-  }
-  
-  .progress-step[disabled] {
-    pointer-events: none;
-  }
-  .quiz-controls {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-   
-  .next-btn:hover {
-    background: #3E6BFF;
-  }
-  
-  .next-btn svg {
-    margin-left: 5px;
-  }
-</style>
-{/if}
+    </header>
 
+    <main class="quiz-content">
+      {#each questions as question, index}
+        {#if index === activeQuestion}
+          <div out:fade={{ duration: 200 }} in:fly={{ y: 100, duration: 500 }} class="fade-wrapper">
+            <Question 
+              {question} 
+              bind:isAnswered
+              on:answerSelected={handleAnswerSelected} 
+              {nextQuestion}
+              isLastQuestion={index === questions.length - 1}
+            />  
+          </div>
+        {/if}
+      {/each}
+    </main>
+
+    <footer class="quiz-footer">
+      <div class="progress-container">
+        <div class="progress-bar" style="width: {((activeQuestion + (isQuestionAnswered(activeQuestion) ? 1: 0)) / questions.length) * 100}%"></div>
+        <div class="progress-steps">
+          {#each questions as _, i}
+            <button 
+              class="progress-step 
+                {i === activeQuestion ? 'active' : ''} 
+                {isQuestionAnswered(i) ? 'completed' : ''}
+                {!canNavigateTo(i) ? 'locked' : ''}"
+              on:click={() => goToQuestion(i)}
+              disabled={!canNavigateTo(i)}
+              aria-label="Ir para questão {i + 1}"
+            >
+              {#if !canNavigateTo(i)}
+                 <!-- SVG icon -->
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              {:else}
+                {i + 1}
+              {/if}
+            </button>
+          {/each}
+        </div>
+      </div>
+      
+      <div class="footer-actions">
+        <a href="{base}/" class="home-link" on:click|preventDefault={resetQuiz}> 
+           <!-- SVG icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          Voltar ao Início
+        </a>
+        <div class="progress-text">Pergunta {questionNumber} de {questions.length}</div>
+      </div>
+    </footer>
+  </div>
+{/if}
 
 <style>
   :global(body) {
