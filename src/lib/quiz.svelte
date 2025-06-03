@@ -118,7 +118,7 @@
       type: "multiple",
       difficulty: "easy",
       category: "Ansiedade",
-      question: "Você já procurou ajuda (psicológica ou de colegas) para lidar com a ansiedade acadêmica?",
+      question: "Você já procurou ajuda psicológica para lidar com a ansiedade acadêmica?",
       answers: [
         {id: 1, text: "Nunca", score: 0, image: `${base}/images/1.png` },
         {id: 2, text: "Às vezes", score: 1, image: `${base}/images/1.png` },
