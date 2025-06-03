@@ -1,135 +1,152 @@
 <script>
   import { store } from './store.js'
-  import { onMount } from 'svelte'
-  import {base} from "$app/paths"
+  import { onMount, createEventDispatcher } from 'svelte'
+  import { base } from "$app/paths"
 
+  // Props received from Quiz component
   export let question;
-  export let nextQuestion;
-  export let isAnswered;
- 
+  export let nextQuestion; // Function to call to advance
+  export let isAnswered;   // Bound variable indicating if an answer is selected
+  export let isLastQuestion; // Boolean indicating if this is the last question
 
-  let selectedAnswer = null
- 
-  
+  const dispatch = createEventDispatcher();
 
-  // Função para gerar cores e ícones dinamicamente
+  let selectedAnswer = null;
+ 
+  // Function to generate default styles if image fails
   function getDefaultStyle(index) {
     const colors = ['#EF5350', '#42A5F5', '#66BB6A', '#FFA726', '#AB47BC', '#26C6DA', '#D4E157', '#FF7043'];
     const icons = ['🔴', '🔵', '🟢', '🟠', '🟣', '🟡', '🟤', '⚪'];
-    
     return {
       color: colors[index % colors.length],
       icon: icons[index % icons.length]
     };
   }
 
-  // Verifica se a imagem existe
-  async function checkImageExists(imageUrl, index, element) {
-    if (!imageUrl || imageUrl === '') {
-      applyDefaultStyle(index, element);
-      return;
-    }
-
-    // try {
-    //   const response = await fetch(imageUrl, { method: 'HEAD' });
-    //   if (!response.ok) throw new Error('Image not found');
-      
-    //   // Verifica se o conteúdo é realmente uma imagem
-    //   const contentType = response.headers.get('Content-Type');
-    //   if (!contentType || !contentType.startsWith('image/')) {
-    //     throw new Error('Not an image');
-    //   }
-    // } catch (error) {
-    //   applyDefaultStyle(index, element);
-    // }
-  }
-
+  // Apply default style to an element
   function applyDefaultStyle(index, element) {
     const style = getDefaultStyle(index);
     const iconContainer = element.querySelector('.icon-container');
     if (iconContainer) {
       iconContainer.style.backgroundColor = style.color;
-      iconContainer.querySelector('.default-icon').textContent = style.icon;
-      iconContainer.querySelector('.default-icon').style.display = 'block';
+      const defaultIcon = iconContainer.querySelector('.default-icon');
+      if (defaultIcon) {
+        defaultIcon.textContent = style.icon;
+        defaultIcon.style.display = 'block';
+      }
       const img = iconContainer.querySelector('.answer-image');
       if (img) img.style.display = 'none';
     }
   }
 
-  // Função para permitir mudar a resposta
+  // Handle image loading errors
+  function handleImageError(event, index) {
+    // Fallback to a default image or apply default style
+    // event.target.src = `${base}/images/default_fallback.png`; // Optional: set a fallback image
+    applyDefaultStyle(index, event.target.closest('.answer-card'));
+  }
+
+  // Handle clicking an answer
   function handleAnswerClick(answer) {
+    let scoreChange = 0;
+    let previousAnswerId = selectedAnswer?.id;
+
     if (selectedAnswer?.id === answer.id) {
+      // Deselecting the current answer
+      scoreChange = -selectedAnswer.score;
       selectedAnswer = null;
       isAnswered = false;
-      store.save(question.category, -answer.score, question.id, answer.id); 
     } else {
+      // Selecting a new answer (or the first answer)
       if (selectedAnswer) {
-        store.save(question.category, -selectedAnswer.score, question.id, selectedAnswer.id);
+        // Subtract score of previously selected answer if changing selection
+        scoreChange -= selectedAnswer.score;
       }
       selectedAnswer = answer;
+      scoreChange += selectedAnswer.score;
       isAnswered = true;
-      store.save(question.category, answer.score, question.id, answer.id);
-    }
-  }
-  onMount(() => {
-    // Verifica resposta salva
-    const savedAnswer = store.getQuestionAnswer(question.id);
-    if (savedAnswer) {
-        isAnswered = true;
-        selectedAnswer = question.answers.find(a => a.id === savedAnswer.answerId);
     }
 
-    // Verifica imagens
-    document.querySelectorAll('.answer-card').forEach((card, index) => {
-        const img = card.querySelector('.answer-image');
-        if (img && img.src) {
-            checkImageExists(img.src, index, card);
-        }
-    });
-});
+    // Update the store with the change
+    store.save(question.category, scoreChange, question.id, answer.id, previousAnswerId);
+    
+    // Dispatch event to notify parent (Quiz component)
+    dispatch('answerSelected'); 
+  }
+
+  // Lifecycle function: Runs when the component mounts
+  onMount(() => {
+    // Check if there's a saved answer for this question in the store
+    const savedAnswerData = store.getQuestionAnswer(question.id);
+    if (savedAnswerData) {
+        isAnswered = true;
+        selectedAnswer = question.answers.find(a => a.id === savedAnswerData.answerId);
+    }
+
+    // Initial image check (optional, error handler might be sufficient)
+    // document.querySelectorAll('.answer-card').forEach((card, index) => {
+    //     const img = card.querySelector('.answer-image');
+    //     if (img && img.src && !img.complete) { // Check if image hasn't loaded yet
+    //         // Could add more robust checking here if needed
+    //     }
+    // });
+  });
 </script>
 
-<h3>
+<!-- Question Text -->
+<h3 class="question-title">
   {@html question.question}
 </h3>
 
+<!-- Optional message indicating selection -->
 {#if isAnswered}
-  <h4>Vamos pra próxima 🎉</h4>
+  <h4 class="selection-feedback">Vamos pra próxima 🎉</h4>
 {/if}
 
+<!-- Grid of Answer Options -->
 <div class="answers-grid">
   {#each question.answers as answer, index}
     <div class="answer-card">
       <button
-        on:click={() => handleAnswerClick(answer)}
+        class="answer-button"
         class:selected-answer={selectedAnswer?.id === answer.id}
+        on:click={() => handleAnswerClick(answer)}
+        aria-pressed={selectedAnswer?.id === answer.id}
       >
         <div class="icon-container">
-          <img 
-          src={answer.image || `${base}/images/1.png`}
-          alt={answer.text} 
-          class="answer-image" 
-          on:error={(e) => {
-            e.target.src = `${base}/images/1.png`;
-            applyDefaultStyle(index, e.target.closest('.answer-card'));
-          }}
-        />
-        
+          <!-- Attempt to load answer image, fallback on error -->
+       <img 
+  src={answer.image && answer.image.trim() !== '' ? answer.image : `${base}/images/1.png`}
+  alt={answer.text}
+  class="answer-image"
+  on:error={(e) => {
+    if (e.target.src !== `${base}/images/1.png`) {
+      e.target.src = `${base}/images/1.png`;
+      applyDefaultStyle?.(index, e.target.closest('.answer-card'));
+    }
+  }}
+/>
 
-          <div class="default-icon"></div>
+
+          <!-- Default icon shown if image fails -->
+          <div class="default-icon" aria-hidden="true"></div>
         </div>
         <div class="answer-text">{@html answer.text}</div>
+        <!-- Checkmark for selected answer -->
         {#if selectedAnswer?.id === answer.id}
-          <div class="answer-checkmark">✓</div>
+          <div class="answer-checkmark" aria-hidden="true">✓</div>
         {/if}
       </button>
     </div>
   {/each}
 </div>
 
+<!-- Next Button (shown only when an answer is selected) -->
 {#if isAnswered}
   <div class="next-button">
-    <button class="next-btn" on:click={nextQuestion}>Próxima pergunta</button>
+    <button on:click={nextQuestion}> <!-- Use the passed nextQuestion function -->
+      {isLastQuestion ? 'Finalizar' : 'Próxima pergunta'} <!-- Change text based on isLastQuestion -->
+    </button>
   </div>
 {/if}
 

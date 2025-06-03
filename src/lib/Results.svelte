@@ -1,12 +1,15 @@
 <script>
-  export let scoreAnsiedade;
+  export let score;
+  export let category;
   export let resetQuiz;
+  export let quizId; 
   import { onMount } from 'svelte';
-  import { store } from './store.js'
+  import { store } from './store.js'; 
   import { base } from "$app/paths";
 
   let showEmailInput = false;
   let email = '';
+  
   
   function toggleEmailInput() {
     showEmailInput = !showEmailInput;
@@ -14,48 +17,56 @@
   
   async function sendEmail() {
     if (!email) return;
-    
-    const urlParams = new URLSearchParams(window.location.search);
-
+        let id = quizId??1;
     try {
-        const response = await store.submitToAPI('https://pdm7.onrender.com/mail.php', { email });
+        // Pass email and potentially other relevant data from the store
+        const response = await store.submitToAPI('https://pdm7.onrender.com/mail.php', { 
+            id, email, category
+        });
 
         if (response) {
             console.log("E-mail enviado com sucesso!", response);
             alert("Cópia das respostas enviada para o e-mail com sucesso!");
             showEmailInput = false;
             email = '';
-      }
+        } else {
+             console.log("E-mail API call completed, but response was not explicitly successful.");
+             alert("Solicitação de envio de e-mail processada.");
+             showEmailInput = false;
+             email = '';
+        }
     } catch (error) {
       console.error("Erro ao enviar e-mail:", error);
       alert("Ocorreu um erro ao enviar o e-mail. Por favor, tente novamente.");
     }
   }
 
+
   onMount(async () => {
-    const response = await store.submitToAPI('https://pdm7.onrender.com/mail.php');
+    try {
+        const querys = $store.querys || {}; 
+        const answersData = $store.questionAnswers || {}; 
+        const finalScore = score;
+        const quizCategory = category;
 
-    const urlParams = new URLSearchParams(window.location.search);
+        // Submit data to repository endpoint
+        const bd = await store.submitToAPI('https://pdm7.onrender.com/repository.php?salvar', {
+            qid: quizId ?? 1, 
+            classe: querys.institution || 'N/A', 
+            salvar: 'Master',
+            score: finalScore,
+            category: quizCategory,
+            answers: answersData, 
+            ...querys 
+        });
+        console.log("Data saved to repository:", bd);
 
-    // melhorar
-    const querys = {
-        name: urlParams.get("name"),
-        age: urlParams.get("age"),
-        period: urlParams.get("period"),
-        institution: urlParams.get("institution"),
-        gender: urlParams.get("gender"),
-        graduation: urlParams.get("graduation"),
-        cep: urlParams.get("cep"),
-        state: urlParams.get("state"),
-        city: urlParams.get("city")
+ 
+
+    } catch (error) {
+        console.error("Error in onMount data submission:", error);
+        // Optionally notify user of submission error
     }
-   
-    const bd = await store.submitToAPI('https://pdm7.onrender.com/repository.php?salvar', {
-        qid: 1, 
-        classe: 'Ciências da Computação - 1º Período', 
-        salvar: 'Master',
-        ...querys
-    });
   });
 </script>
 
@@ -72,20 +83,34 @@
   <h2>Envio finalizado! 🎉</h2>
   
   <div class="result-container">
-      {#if scoreAnsiedade <= 13}
-          <div class="result-message result-good">
-              <h3 class="result-main-title">Ansiedade Leve</h3>
-              <p>A ansiedade leve é uma sensação natural de nervosismo ou preocupação que acontece em situações como provas, entrevistas ou mudanças importantes na vida. Ela pode causar um pouco de inquietação ou preocupação, mas não atrapalha as atividades diárias, inclusive é saudável e ajuda nos processos psíquicos.</p>
+      {#if category === 'Autoestima'}
+          <div class="result-message result-generic">
+              <h3 class="result-main-title">Obrigado por responder!</h3>
+              <p>Lembre-se: a pessoa mais importante da sua vida é você. Cuide-se, respeite seus limites e celebre cada conquista. Este quiz foi só o começo. Siga se conhecendo e se valorizando, você merece se sentir bem todos os dias.</p>
           </div>
-      {:else if scoreAnsiedade <= 26}
-          <div class="result-message result-warning">
-              <h3 class="result-main-title">Sinais de Alerta para Ansiedade</h3>
-              <p>Quando a ansiedade dura muito tempo ou começa a afetar suas atividades diárias é um sinal de que algo mais sério pode estar acontecendo. Sintomas como dificuldade para dormir, preocupação constante, tensão no corpo, alterações no apetite ou libido, baixa concentração ou medo excessivo são sinais de alerta.</p>
-          </div>
+      {:else if category === 'Ansiedade'}
+          {#if score <= 13}
+              <div class="result-message result-good">
+                  <h3 class="result-main-title">Ansiedade Leve</h3>
+                  <p>A ansiedade leve é uma sensação natural de nervosismo ou preocupação que acontece em situações como provas, entrevistas ou mudanças importantes na vida. Ela pode causar um pouco de inquietação ou preocupação, mas não atrapalha as atividades diárias, inclusive é saudável e ajuda nos processos psíquicos.</p>
+              </div>
+          {:else if score <= 26}
+              <div class="result-message result-warning">
+                  <h3 class="result-main-title">Sinais de Alerta para Ansiedade</h3>
+                  <p>Quando a ansiedade dura muito tempo ou começa a afetar suas atividades diárias é um sinal de que algo mais sério pode estar acontecendo. Sintomas como dificuldade para dormir, preocupação constante, tensão no corpo, alterações no apetite ou libido, baixa concentração ou medo excessivo são sinais de alerta.</p>
+              </div>
+          {:else}
+              <div class="result-message result-alert">
+                  <h3 class="result-main-title">Requer atenção para a ansiedade</h3>
+                  <p>Se a ansiedade começar a atrapalhar sua rotina ou se os sintomas citados no sinal de alerta persistirem, é importante buscar a ajuda profissional. A psicoterapia e em alguns casos medicamentos, podem ajudar a controlar a ansiedade e melhorar sua qualidade de vida. Resistir a buscar ajuda, pode trazer sérios prejuízos. Cuidar da saúde mental não é fraqueza, é vida.</p>
+              </div>
+          {/if}
       {:else}
-          <div class="result-message result-alert">
-              <h3 class="result-main-title">Requer atenção para a ansiedade</h3>
-              <p>Se a ansiedade começar a atrapalhar sua rotina ou se os sintomas citados no sinal de alerta persistirem, é importante buscar a ajuda profissional. A psicoterapia e em alguns casos medicamentos, podem ajudar a controlar a ansiedade e melhorar sua qualidade de vida. Resistir a buscar ajuda, pode trazer sérios prejuízos. Cuidar da saúde mental não é fraqueza, é vida.</p>
+          <!-- Default display for other categories -->
+           <div class="result-message result-generic">
+              <h3 class="result-main-title">Quiz Concluído!</h3>
+              <p>Obrigado por participar do quiz sobre {category}.</p>
+              <p>Sua pontuação foi: <strong>{score}</strong>.</p>
           </div>
       {/if}
   </div>
@@ -121,8 +146,9 @@
         bind:value={email}
         placeholder="Digite seu e-mail"
         class="email-input"
+        aria-label="Digite seu e-mail para receber os resultados"
       />
-      <button on:click={sendEmail} class="send-email-btn">
+      <button on:click={sendEmail} class="send-email-btn" aria-label="Enviar resultados por e-mail">
           Enviar
       </button>
     </div>
@@ -130,7 +156,8 @@
 </div>
 
 <style>
-  .results-page {
+  /* Styles remain the same as provided previously */
+ .results-page {
       max-width: 800px;
       margin: 0 auto;
       padding: 2rem;
@@ -141,23 +168,32 @@
 
   .confetti {
       position: absolute;
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       background-color: #f00;
-      opacity: 0.5;
-      animation: confetti 5s ease-in-out infinite;
+      opacity: 0;
+      animation: confetti 5s ease-out infinite;
+      border-radius: 50%;
+      z-index: 0;
   }
 
   @keyframes confetti {
-      0% { transform: translateY(0) rotate(0deg); }
-      100% { transform: translateY(100vh) rotate(720deg); }
+      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
   }
 
   .trophy-icon {
-      width: 80px;
-      height: 80px;
+      width: 60px; /* Slightly smaller */
+      height: 60px;
       margin: 0 auto 1rem;
       display: block;
+      color: #ffc107; /* Gold color */
+  }
+
+  .results-page h2 {
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
   }
 
   .result-container {
@@ -168,17 +204,31 @@
 
   .result-main-title {
       color: #2c3e50;
-      font-size: 1.8rem;
-      margin-bottom: 1.5rem;
+      font-size: 1.6rem; /* Adjusted size */
+      margin-bottom: 1rem;
       text-align: center;
       font-weight: 600;
   }
 
   .result-message {
-      padding: 2rem;
+      padding: 1.5rem; /* Adjusted padding */
       border-radius: 8px;
       margin: 1rem 0;
       text-align: left;
+      line-height: 1.6;
+  }
+  
+  .result-message p {
+      margin-bottom: 0.5rem;
+  }
+  
+  .result-message p:last-child {
+      margin-bottom: 0;
+  }
+
+  .result-generic {
+      background-color: #f8f9fa;
+      border-left: 5px solid #6c757d;
   }
 
   .result-good {
@@ -204,26 +254,30 @@
       flex-wrap: wrap;
   }
 
-  .restart-btn, .home-btn, .email-btn {
+  .restart-btn, .home-btn, .email-btn, .send-email-btn {
       padding: 0.75rem 1.5rem;
-      border-radius: 4px;
+      border-radius: 50px; /* Pill shape */
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
       text-decoration: none;
       cursor: pointer;
       transition: all 0.3s ease;
+      font-weight: 500;
+      border: none;
   }
 
-  .restart-btn:hover, .home-btn:hover, .email-btn:hover {
+  .restart-btn:hover, .home-btn:hover, .email-btn:hover, .send-email-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
   }
 
   .restart-btn {
       background-color: #3f51b5;
       color: white;
-      border: none;
+  }
+  .restart-btn:hover {
+      background-color: #303f9f;
   }
 
   .home-btn {
@@ -231,38 +285,75 @@
       color: #333;
       border: 1px solid #ddd;
   }
+   .home-btn:hover {
+      background-color: #e0e0e0;
+  }
 
   .email-btn {
       background-color: #4caf50;
       color: white;
-      border: none;
+  }
+  .email-btn:hover {
+       background-color: #388e3c;
   }
 
   .email-input-container {
-      margin-top: 1rem;
+      margin-top: 1.5rem; /* More space */
       display: flex;
       justify-content: center;
+      align-items: center; /* Align items vertically */
       gap: 0.5rem;
+      flex-wrap: wrap; /* Allow wrapping on small screens */
   }
 
   .email-input {
       padding: 0.75rem;
-      border-radius: 4px;
+      border-radius: 50px; /* Pill shape */
       border: 1px solid #ddd;
       min-width: 250px;
+      flex-grow: 1; /* Allow input to grow */
+      max-width: 400px; /* Limit max width */
   }
 
   .send-email-btn {
-      padding: 0.75rem 1.5rem;
       background-color: #3f51b5;
       color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.3s ease;
   }
-
   .send-email-btn:hover {
       background-color: #303f9f;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+      .results-page {
+          padding: 1rem;
+          margin: 1rem;
+      }
+      .result-main-title {
+          font-size: 1.4rem;
+      }
+      .result-message {
+          padding: 1rem;
+      }
+      .result-actions {
+          flex-direction: column;
+          gap: 0.8rem;
+      }
+      .restart-btn, .home-btn, .email-btn {
+          width: 100%;
+          justify-content: center;
+      }
+      .email-input-container {
+          flex-direction: column;
+          align-items: stretch;
+      }
+      .email-input {
+          min-width: auto;
+          width: 100%;
+      }
+      .send-email-btn {
+          width: 100%;
+          justify-content: center;
+      }
   }
 </style>

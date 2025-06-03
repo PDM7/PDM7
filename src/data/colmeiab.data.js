@@ -1,4 +1,4 @@
-// import { base } from "$app/paths";
+import { base } from "$app/paths";
 
 const questions = [
   {
@@ -129,86 +129,4 @@ const questions = [
   }
 ];
 
-let currentQuestionIndex = 0;
-let selectedAnswers = [];
-
-const questionContainer = document.getElementById('question-container');
-const nextButton = document.getElementById('next-button');
-const homeButton = document.getElementById('home-button-fixed');
-
-
-homeButton.addEventListener('click', () => {
-  window.location.href = "home2.html";
-});
-
-function loadQuestion() {
-  const currentQuestion = questions[currentQuestionIndex];
-  let questionContent = `<div class="question">${currentQuestion.question}</div>`;
-
-  questionContent += `
-        <div class="options-container">
-            ${currentQuestion.answers.map(answer => `
-                <input type="radio" id="answer-${answer.id}" name="quiz-answer" value="${answer.id}" data-score="${answer.score}">
-                <label for="answer-${answer.id}" class="option">
-                    ${answer.text}
-                </label>
-            `).join('')}
-        </div>
-    `;
-
-  questionContainer.innerHTML = questionContent;
-
-  document.querySelectorAll('input[name="quiz-answer"]').forEach(input => {
-    input.addEventListener('change', (event) => {
-      const selectedAnswerId = parseInt(event.target.value);
-      const selectedAnswerScore = parseInt(event.target.dataset.score);
-      selectedAnswers[currentQuestionIndex] = {
-        questionId: currentQuestion.id,
-        type: currentQuestion.type,
-        answerId: selectedAnswerId,
-        score: selectedAnswerScore
-      };
-    });
-  });
-
-  if (selectedAnswers[currentQuestionIndex]) {
-    document.getElementById(`answer-${selectedAnswers[currentQuestionIndex].answerId}`).checked = true;
-  }
-}
-
-function loadNextQuestion() {
-  const currentQuestion = questions[currentQuestionIndex];
-
-  if (selectedAnswers[currentQuestionIndex] === undefined || selectedAnswers[currentQuestionIndex].answerId === undefined) {
-    alert("Por favor, selecione uma resposta antes de prosseguir.");
-    return;
-  }
-
-  if (currentQuestionIndex < questions.length - 1) {
-    currentQuestionIndex++;
-    loadQuestion();
-  } else {
-    showResults();
-  }
-}
-
-function showResults() {
-  let totalScore = 0;
-  selectedAnswers.forEach(answer => {
-    totalScore += answer.score;
-  });
-
-  console.log("Pontuação total para o banco de dados:", totalScore);
-  console.log("Respostas selecionadas para o banco de dados:", selectedAnswers);
-
-  questionContainer.innerHTML = `
-        <h2>Obrigado por responder!</h2>
-        <p>Lembre-se: a pessoa mais importante da sua vida é você. Cuide-se, respeite seus limites e celebre cada conquista. Este quiz foi só o começo. Siga se conhecendo e se valorizando, você merece se sentir bem todos os dias.</p>
-        
-    `;
-  nextButton.style.display = 'none';
-}
-
-nextButton.addEventListener('click', loadNextQuestion);
-
-loadQuestion();
+export default questions;
