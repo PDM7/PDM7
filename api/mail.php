@@ -35,8 +35,14 @@ function enviarEmail($data) {
     $respostas = $data['respostas'];
     $pontuacoes = $data['pontuacoes'];
     $scoreAnsiedade = $pontuacoes['Ansiedade'];
+    $category = $data['category'] ?? 'Ansiedade';
 
-    if ($scoreAnsiedade <= 12) {
+    if($category == 'Autoestima'){
+        $nivelAnsiedade = 'Obrigado por responder!';
+        $mensagemAnsiedade = 'Lembre-se: a pessoa mais importante da sua vida é você. Cuide-se, respeite seus limites e celebre cada conquista. Este quiz foi só o começo. Siga se conhecendo e se valorizando, você merece se sentir bem todos os dias.';
+        $classeCss = 'result-generic';
+    }else if($category == 'Ansiedade'){
+        if ($scoreAnsiedade <= 12) {
         $nivelAnsiedade = 'Ansiedade Leve';
         $mensagemAnsiedade = 'A ansiedade leve é uma sensação natural de nervosismo ou preocupação que acontece em situações como provas, entrevistas ou mudanças importantes na vida. Ela pode causar um pouco de inquietação ou preocupação, mas não atrapalha as atividades diárias, inclusive é saudável e ajuda nos processos psíquicos.';
         $classeCss = 'result-good';
@@ -49,6 +55,7 @@ function enviarEmail($data) {
         $mensagemAnsiedade = 'Se a ansiedade começar a atrapalhar sua rotina ou se os sintomas citados no sinal de alerta persistirem, é importante buscar a ajuda profissional. A psicoterapia e em alguns casos medicamentos, podem ajudar a controlar a ansiedade e melhorar sua qualidade de vida. Resistir a buscar ajuda, pode trazer sérios prejuízos. Cuidar da saúde mental não é fraqueza, é vida.';
         $classeCss = 'result-alert';
     }
+}
 
     $html = '<html><body>';
     $html .= '<h1>Resultado da Avaliação de Ansiedade Acadêmica</h1>';
@@ -61,7 +68,7 @@ function enviarEmail($data) {
     }
 
     $html .= '</table>';
-    $html .= '<p><small>Este e-mail foi enviado automaticamente como resposta ao seu teste de ansiedade acadêmica. Não responda este e-mail.</small></p>';
+    $html .= '<p><small>Este e-mail foi enviado automaticamente como resposta ao seu teste. Não responda este e-mail.</small></p>';
     $html .= '</body></html>';
     $html = mb_convert_encoding($html, 'UTF-8', 'auto');
 
@@ -76,7 +83,7 @@ function enviarEmail($data) {
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
-        $mail->setFrom('colmeiapdm7@gmail.com', 'Sistema de Avaliação de Ansiedade');
+        $mail->setFrom('colmeiapdm7@gmail.com', 'Sistema de Avaliação de '."$category".'');
         
         // Lógica modificada para destinatários
         if (isset($data['email']) && filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
