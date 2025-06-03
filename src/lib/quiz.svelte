@@ -76,7 +76,7 @@
   <div class="quiz-container">
     <header class="quiz-header">
       <div class="header-content">
-        <span class="version">vs 358d7e</span>
+        <span class="version">vs a19f3c</span>
         <h1 class="quiz-title">Pergunta <span class="question-number">#{questionNumber}</span></h1>
         <div class="quiz-controls">
           <button class="reset-btn" on:click={resetQuiz} aria-label="Reiniciar Quiz">
