@@ -58,7 +58,7 @@ function enviarEmail($data) {
 }
 
     $html = '<html><body>';
-    $html .= '<h1>Resultado da Avaliação de Ansiedade Acadêmica</h1>';
+   $html .= '<h1>Resultado da Avaliação de '."$category".' Acadêmica</h1>';
     $html .= "<div style=\"padding: 20px; border-left: 5px solid; margin-bottom: 20px;\"><strong>$nivelAnsiedade</strong><p>$mensagemAnsiedade</p></div>";
     $html .= "<p>Pontuação: <strong>$scoreAnsiedade</strong></p>";
     $html .= '<table border="1" cellpadding="5" cellspacing="0" style="width: 100%; margin-bottom: 20px;"><tr><th>Pergunta</th><th>Resposta</th><th>Pontuação</th></tr>';
